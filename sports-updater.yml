@@ -1,0 +1,30 @@
+name: Auto Sports Playlist Updater
+
+on:
+  schedule:
+    - cron: "0 */2 * * *"   # Every 2 hours
+  workflow_dispatch:        # Allow manual run
+
+jobs:
+  build_sports_playlists:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v4
+
+    - name: Install Python & deps
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y python3 python3-pip
+        pip install pandas requests
+
+    - name: Run SportsMaster notebook logic
+      run: |
+        python3 SportsMaster.py
+
+    - name: Commit updated playlists
+      uses: stefanzweifel/git-auto-commit-action@v5
+      with:
+        commit_message: "Auto-update sports playlists"
+        file_pattern: "*.m3u"
