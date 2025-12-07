@@ -2,7 +2,7 @@ name: Build Sports Playlists Hourly
 
 on:
   schedule:
-    - cron: "0 * * * *"   # every hour
+    - cron: "0 * * * *"   # Every hour, on the hour
   workflow_dispatch:
 
 jobs:
@@ -10,23 +10,52 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repo
+    - name: Checkout repository
       uses: actions/checkout@v4
+      with:
+        fetch-depth: 0   # Needed so we can pull + merge cleanly
 
-    - name: Install Python deps
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.11"
+
+    - name: Install dependencies
       run: |
-        sudo apt-get update
-        sudo apt-get install -y python3 python3-pip
+        python -m pip install --upgrade pip
         pip install requests pandas lxml
 
     - name: Run SportsMaster.py
+      env:
+        NOMAD_USER: ${{ secrets.NOMAD_USER }}
+        NOMAD_PASS: ${{ secrets.NOMAD_PASS }}
       run: |
-        python3 SportsMaster.py
+        python SportsMaster.py
 
-    - name: Commit Playlist Updates
-      uses: stefanzweifel/git-auto-commit-action@v5
-      with:
-        commit_message: "Auto-update sports playlists"
-        file_pattern: |
-          sports_master.m3u
-          sports_master_free.m3u 
+    - name: Pull latest (avoid non-fast-forward conflicts)
+      run: |
+        git config pull.rebase false
+        git pull origin main || true
+
+    - name: Commit updated playlists
+      run: |
+        git add sports_master.m3u
+        git add sports_master_free.m3u
+
+        if git diff --cached --quiet; then
+          echo "No changes to commit."
+          exit 0
+        fi
+
+        git config user.name "github-actions[bot]"
+        git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git commit -m "Auto-update sports playlists"
+
+    - name: Push
+      run: |
+        git push origin main || (
+          echo "Push failed, retrying…" &&
+          git pull --rebase origin main &&
+          git push origin main
+        )
+        
