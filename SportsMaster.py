@@ -7,8 +7,8 @@ import re
 # 1. USER SETTINGS
 # ==========================
 
-paid_username = "YOUR_USERNAME"
-paid_password = "YOUR_PASSWORD"
+paid_username = "Nact6578"
+paid_password = "Earm3432"
 
 paid_url = (
     f"http://nomadiptv.online:25461/get.php?"
