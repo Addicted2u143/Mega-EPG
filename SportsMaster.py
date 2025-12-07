@@ -1,11 +1,16 @@
+# ============================================================
+#   SPORTSMASTER.PY — CLEAN SPORTS-ONLY PLAYLIST GENERATOR
+#   Requires: requests, pandas
+# ============================================================
+
 import requests
 import pandas as pd
 import datetime as dt
-import re
+import xml.etree.ElementTree as ET
 
-# ==========================
-# 1. USER SETTINGS
-# ==========================
+# ------------------------------------------------------------
+# 1. USER SETTINGS — EDIT ONLY THESE TWO LINES
+# ------------------------------------------------------------
 
 paid_username = "Nact6578"
 paid_password = "Earm3432"
@@ -16,6 +21,10 @@ paid_url = (
     f"&type=m3u_plus&output=ts"
 )
 
+# ------------------------------------------------------------
+# FREE SPORTS PLAYLIST SOURCES
+# ------------------------------------------------------------
+
 free_playlists = [
     "https://raw.githubusercontent.com/BuddyChewChew/ppv/refs/heads/main/PPVLand.m3u8",
     "https://raw.githubusercontent.com/BuddyChewChew/My-Streams/refs/heads/main/Pixelsports.m3u8",
@@ -23,58 +32,71 @@ free_playlists = [
     "https://raw.githubusercontent.com/BuddyChewChew/My-Streams/refs/heads/main/Backup.m3u",
     "https://raw.githubusercontent.com/BuddyChewChew/buddylive-combined/refs/heads/main/combined_playlist.m3u",
     "https://raw.githubusercontent.com/BuddyChewChew/buddylive/refs/heads/main/en/videoall.m3u",
-    "https://raw.githubusercontent.com/BuddyChewChew/iptv/refs/heads/main/M3U8/events.m3u8"
+    "https://raw.githubusercontent.com/BuddyChewChew/iptv/refs/heads/main/M3U8/events.m3u8",
 ]
 
+# ------------------------------------------------------------
+# SPORTS CATEGORY DEFINITIONS
+# ------------------------------------------------------------
+
 SPORT_KEYWORDS = {
-    "🏈 Football (NFL + NCAA FB)": [
-        "nfl", "football", "redzone", "big ten", "b1g", "college football"
+    "Football (NFL + NCAA)": [
+        "nfl", "football", "ncaaf", "ncaa", "redzone", "espn college", "college football"
     ],
-    "🏀 Basketball (NBA + NCAA BB)": [
-        "nba", "basketball", "ncaab"
+    "Basketball (NBA + NCAA)": [
+        "nba", "basketball", "ncaab", "college basketball"
     ],
-    "⚾ Baseball (MLB)": ["mlb", "baseball"],
-    "🏒 Hockey (NHL)": ["nhl", "hockey"],
-    "⚽ Soccer": [
-        "soccer", "futbol", "premier", "laliga", "bundesliga",
-        "serie a", "champions league", "ucl", "mls"
+    "Baseball (MLB + NCAA)": [
+        "mlb", "baseball", "ncaa baseball"
     ],
-    "🥊 Combat Sports (UFC/Boxing/WWE)": [
-        "ufc", "boxing", "wwe", "mma", "fight", "ppv"
+    "Hockey (NHL)": [
+        "nhl", "hockey"
     ],
-    "🏎 Motorsports": ["nascar", "indycar", "f1", "formula"],
-    "🎾 Golf / Tennis": ["golf", "tennis", "pga", "atp", "wta"],
-    "📺 General Sports": ["espn", "fs1", "tsn", "bein", "sports"]
+    "Soccer / Futbol": [
+        "soccer", "futbol", "premier", "uptv", "mls", "champions league",
+        "bundesliga", "laliga", "serie a"
+    ],
+    "Combat Sports (UFC/WWE/Boxing)": [
+        "ufc", "wwe", "boxing", "mma", "fight", "ppv"
+    ],
+    "Motorsports (F1/NASCAR/Indy)": [
+        "nascar", "f1", "formula", "indy", "motogp"
+    ],
+    "Golf / Tennis / Other": [
+        "golf", "tennis", "pga", "atp", "wta", "ryder"
+    ],
 }
 
-EVENT_WORDS = ["event", "ppv", "ufc", "fight", "card", "match", "round", "live"]
+GENERIC_SPORTS = ["sports", "espn", "bein", "tsn", "sky sports", "fs1", "fs2"]
 
+# ------------------------------------------------------------
+# HELPERS
+# ------------------------------------------------------------
 
-# ==========================
-# 2. HELPERS
-# ==========================
-
-def fetch(url):
+def download_m3u(url):
     try:
         print("Fetching:", url)
-        r = requests.get(url, timeout=20)
-        return r.text
+        return requests.get(url, timeout=20).text
     except:
         return ""
 
-
 def parse_m3u(text):
-    lines = text.splitlines()
     rows = []
     name = logo = group = tvg_id = None
 
-    for line in lines:
+    for line in text.splitlines():
         if line.startswith("#EXTINF"):
             name = line.split(",")[-1].strip()
+            logo = ""
+            group = ""
+            tvg_id = ""
 
-            logo = extract(line, 'tvg-logo')
-            group = extract(line, 'group-title')
-            tvg_id = extract(line, 'tvg-id')
+            if 'tvg-logo="' in line:
+                logo = line.split('tvg-logo="')[1].split('"')[0]
+            if 'group-title="' in line:
+                group = line.split('group-title="')[1].split('"')[0]
+            if 'tvg-id="' in line:
+                tvg_id = line.split('tvg-id="')[1].split('"')[0]
 
         elif line.startswith("http"):
             rows.append([name, line.strip(), logo, group, tvg_id])
@@ -82,79 +104,60 @@ def parse_m3u(text):
     return pd.DataFrame(rows, columns=["name", "url", "logo", "group", "tvg_id"])
 
 
-def extract(line, key):
-    if f'{key}="' in line:
-        return line.split(f'{key}="')[1].split('"')[0]
-    return ""
-
-
 def classify(name, group):
     text = f"{name} {group}".lower()
 
-    for category, words in SPORT_KEYWORDS.items():
-        if any(w in text for w in words):
-            return category
+    for cat, keys in SPORT_KEYWORDS.items():
+        if any(k in text for k in keys):
+            return cat
 
-    return ""
+    if any(k in text for k in GENERIC_SPORTS):
+        return "General Sports"
 
-
-def is_event(name, group):
-    text = f"{name} {group}".lower()
-    return any(w in text for w in EVENT_WORDS)
+    return None
 
 
-# ==========================
-# 3. LOAD PLAYLISTS
-# ==========================
+# ------------------------------------------------------------
+# MAIN PIPELINE
+# ------------------------------------------------------------
 
 dfs = []
 
-paid_text = fetch(paid_url)
-if paid_text:
+# Pull Nomad playlist first so duplicates prefer Nomad’s versions
+paid_text = download_m3u(paid_url)
+if paid_text.strip():
     dfs.append(parse_m3u(paid_text))
 
 for url in free_playlists:
-    t = fetch(url)
-    if t.strip():
-        dfs.append(parse_m3u(t))
+    text = download_m3u(url)
+    if text.strip():
+        dfs.append(parse_m3u(text))
 
 if not dfs:
-    raise RuntimeError("No playlist data loaded.")
+    raise RuntimeError("No playlists loaded.")
 
 merged = pd.concat(dfs, ignore_index=True)
-merged = merged.drop_duplicates(subset=["name"], keep="first").reset_index()
 
+# Remove FULL duplicates based on channel name
+merged = merged.drop_duplicates(subset=["name"], keep="first").reset_index(drop=True)
 
-# ==========================
-# 4. CLASSIFY
-# ==========================
-
+# Apply category filtering
 merged["category"] = merged.apply(
     lambda r: classify(r["name"], r["group"]),
     axis=1
 )
 
-merged["is_event"] = merged.apply(
-    lambda r: is_event(r["name"], r["group"]),
-    axis=1
-)
+sports_df = merged[merged["category"].notnull()].copy()
 
+# Sort within category and name
+sports_df = sports_df.sort_values(by=["category", "name"])
 
-# ==========================
-# 5. SORTING (events first within categories)
-# ==========================
+# FREE ONLY version
+sports_free_df = sports_df[sports_df["url"].str.contains("BuddyChewChew")].copy()
 
-merged["sort_event"] = merged["is_event"].apply(lambda x: 0 if x else 1)
-
-sorted_df = merged.sort_values(
-    by=["category", "sort_event", "name"],
-    ascending=[True, True, True]
-)
-
-
-# ==========================
-# 6. EXPORT M3U
-# ==========================
+# ------------------------------------------------------------
+# EXPORT
+# ------------------------------------------------------------
 
 def export(df, path):
     with open(path, "w") as f:
@@ -168,13 +171,9 @@ def export(df, path):
             f.write(r["url"] + "\n")
 
 
-# Full version (Nomad + free)
-export(sorted_df, "sports_master.m3u")
+export(sports_df, "sports_master.m3u")
+export(sports_free_df, "sports_master_free.m3u")
 
-# Family version (free only)
-free_only = sorted_df[~sorted_df["url"].str.contains("nomadiptv")].copy()
-export(free_only, "sports_master_free.m3u")
-
-print("Done! Exported:")
-print(" - sports_master.m3u")
-print(" - sports_master_free.m3u")
+print("\nDONE! Your playlists are ready:")
+print(" - sports_master.m3u  (Nomad + Free)")
+print(" - sports_master_free.m3u  (FREE ONLY)")
