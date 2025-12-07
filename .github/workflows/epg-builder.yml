@@ -39,3 +39,4 @@ jobs:
       with:
         commit_message: "Auto-update EPG"
         file_pattern: "combined_epg_latest.xml.gz"
+        
