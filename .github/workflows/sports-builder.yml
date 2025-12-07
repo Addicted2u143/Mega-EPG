@@ -1,0 +1,53 @@
+name: Auto Sports Playlist Builder
+
+on:
+  schedule:
+    - cron: "0 */3 * * *"   # Runs every 3 hours
+  workflow_dispatch:
+
+jobs:
+  build_sports:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v4
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y python3 python3-pip
+        pip install requests pandas lxml
+
+    - name: Download current SportsMaster.py from repo
+      run: |
+        cp SportsMaster.py builder.py
+
+    - name: Run Sports Playlist Builder
+      run: |
+        python3 builder.py
+
+    - name: Upload updated playlists back to Google Drive
+      env:
+        DRIVE_FOLDER_ID: "11BMQm1BaeobebQ6MBWieBAuuMYbvFCOM"   # Your MegaSports folder ID
+        SPORTS_ID: "1fMRgSLbSwc252FIwrbnAF8JRdZ20XKny"         # sports_master.m3u
+        FREE_ID: "1mwkU9CWJ5nkPW5Z4RQSmFVHKVP4UZ8jJ"            # sports_master_free.m3u
+        ACCESS_TOKEN: ${{ secrets.GDRIVE_TOKEN }}
+      run: |
+        upload_file () {
+          FILE_PATH=$1
+          FILE_ID=$2
+
+          curl -X PATCH \
+            -H "Authorization: Bearer $ACCESS_TOKEN" \
+            -H "Content-Type: application/octet-stream" \
+            --data-binary @$FILE_PATH \
+            "https://www.googleapis.com/upload/drive/v3/files/$FILE_ID?uploadType=media"
+        }
+
+        upload_file "sports_master.m3u" "$SPORTS_ID"
+        upload_file "sports_master_free.m3u" "$FREE_ID"
+
+    - name: Done
+      run: echo "Sports playlists updated successfully!"
+      
