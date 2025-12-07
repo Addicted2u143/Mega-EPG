@@ -1,0 +1,48 @@
+name: Build EPG Every 12 Hours
+
+on:
+  schedule:
+    - cron: "0 */12 * * *"   # Runs every 12 hours
+  workflow_dispatch:        # Allows manual running
+
+jobs:
+  build_epg:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v4
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y python3 python3-pip gzip
+        pip install requests lxml
+
+    - name: Download XML + GZ from Google Drive
+      run: |
+        mkdir epg_downloads
+        cd epg_downloads
+        
+        # Replace these two URLs with your actual Drive file links (force download links)
+        XML_URL="PUT_XML_URL_HERE"
+        GZ_URL="PUT_GZ_URL_HERE"
+
+        # Convert Drive share links to direct links
+        XML_DIRECT=$(echo $XML_URL | sed -E 's#https://drive.google.com/file/d/([^/]+)/.*#https://drive.google.com/uc?export=download&id=\1#')
+        GZ_DIRECT=$(echo $GZ_URL | sed -E 's#https://drive.google.com/file/d/([^/]+)/.*#https://drive.google.com/uc?export=download&id=\1#')
+
+        wget -O latest.xml "$XML_DIRECT"
+        wget -O latest.xml.gz "$GZ_DIRECT"
+
+        cd ..
+
+    - name: Re-compress for GitHub (good measure)
+      run: |
+        gzip -c epg_downloads/latest.xml > combined_epg_latest.xml.gz
+
+    - name: Upload latest epg to repo
+      uses: stefanzweifel/git-auto-commit-action@v5
+      with:
+        commit_message: "Auto-update EPG"
+        file_pattern: combined_epg_latest.xml.gz
