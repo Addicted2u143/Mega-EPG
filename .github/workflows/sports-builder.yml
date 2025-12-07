@@ -1,37 +1,33 @@
-name: Sports AutoUpdater
+name: Build Sports Playlists Hourly
 
 on:
   schedule:
-    - cron: "0 */12 * * *"
-  workflow_dispatch:
+    - cron: "0 * * * *"   # Every hour
+  workflow_dispatch:       # Manual run option
 
 jobs:
-  update-sports-playlists:
+  build_sports:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+    - name: Checkout repo
+      uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: "3.10"
+    - name: Install Python + dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y python3 python3-pip
+        pip install requests pandas
 
-      - name: Install dependencies
-        run: |
-          pip install pandas requests google-api-python-client google-auth google-auth-oauthlib google-auth-httplib2
+    - name: Run SportsMaster.py
+      run: |
+        python3 SportsMaster.py
 
-      - name: Create credentials.json
-        run: |
-          echo '${{ secrets.GDRIVE_JSON }}' > credentials.json
-
-      - name: Run Playlist Builder
-        env:
-          GDRIVE_FOLDER: "${{ secrets.GDRIVE_FOLDER }}"
-        run: |
-          python SportsMaster.py
-
-      - name: Cleanup
-        run: rm -f credentials.json
-        
+    - name: Commit updated playlists
+      uses: stefanzweifel/git-auto-commit-action@v5
+      with:
+        commit_message: "Auto-update sports playlists"
+        file_pattern: |
+          sports_master.m3u
+          sports_master_free.m3u
+          
