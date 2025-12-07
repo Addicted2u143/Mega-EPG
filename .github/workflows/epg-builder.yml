@@ -1,0 +1,41 @@
+name: Build EPG (Every 6 Hours)
+
+on:
+  schedule:
+    - cron: "0 */6 * * *"   # Every 6 hours
+  workflow_dispatch:
+
+jobs:
+  build_epg:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v4
+
+    - name: Install Python + dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y python3 python3-pip
+        pip install requests lxml
+
+    - name: Download EPG from BuddyChewChew (Primary XML)
+      run: |
+        mkdir -p epg_downloads
+        wget -O epg_downloads/buddy_epg.xml \
+          "https://raw.githubusercontent.com/BuddyChewChew/buddylive-combined/refs/heads/main/combined_epg.xml" || true
+
+    - name: Compress to GZ (repo standard)
+      run: |
+        if [ -f epg_downloads/buddy_epg.xml ]; then
+          gzip -c epg_downloads/buddy_epg.xml > combined_epg_latest.xml.gz
+        else
+          echo "EPG source missing — skipping compression."
+          exit 1
+        fi
+
+    - name: Commit updated EPG
+      uses: stefanzweifel/git-auto-commit-action@v5
+      with:
+        commit_message: "Auto-update EPG"
+        file_pattern: "combined_epg_latest.xml.gz"
