@@ -2,11 +2,8 @@ name: Sports Auto-Updater
 
 on:
   schedule:
-    - cron: "0 */6 * * *"   # runs every 6 hours
-  workflow_dispatch:        # allows manual run
-  push:
-    branches:
-      - main
+    - cron: "0 */12 * * *"
+  workflow_dispatch:
 
 jobs:
   update-sports:
@@ -16,59 +13,22 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: "3.11"
-
       - name: Install dependencies
         run: |
-          pip install google-api-python-client oauth2client requests
+          pip install pandas requests google-api-python-client google-auth google-auth-oauthlib google-auth-httplib2
 
-      - name: Run SportsMaster script
+      - name: Run SportsMaster.py
         env:
           GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
           GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
           GOOGLE_REFRESH_TOKEN: ${{ secrets.GOOGLE_REFRESH_TOKEN }}
-        run: |
-          python SportsMaster.py
+        run: python SportsMaster.py
 
-      - name: Upload updated M3U files to Google Drive
-        env:
-          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
-          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
-          GOOGLE_REFRESH_TOKEN: ${{ secrets.GOOGLE_REFRESH_TOKEN }}
-        run: |
-          python3 <<EOF
-          from google.oauth2.credentials import Credentials
-          from googleapiclient.discovery import build
-          import os
-
-          creds = Credentials(
-              None,
-              refresh_token=os.environ["GOOGLE_REFRESH_TOKEN"],
-              client_id=os.environ["GOOGLE_CLIENT_ID"],
-              client_secret=os.environ["GOOGLE_CLIENT_SECRET"],
-              token_uri="https://oauth2.googleapis.com/token"
-          )
-
-          drive = build("drive", "v3", credentials=creds)
-
-          # Upload or replace file helper
-          def upload_or_replace(local_file, drive_file_id):
-              media = MediaFileUpload(local_file, mimetype="audio/x-mpegurl", resumable=True)
-              drive.files().update(
-                  fileId=drive_file_id,
-                  media_body=media
-              ).execute()
-
-          # Your Drive file IDs
-          sports_master_id = "1fMRgSLbSwc252FIwrbnAF8JRdZ20XKny"
-          sports_master_free_id = "1mwkU9CWJ5nkPW5Z4RQSmFVHKVP4UZ8jJ"
-
-          upload_or_replace("sports_master.m3u", sports_master_id)
-          upload_or_replace("sports_master_free.m3u", sports_master_free_id)
-
-          print("Drive upload complete.")
-          EOF
-          
+      - name: Upload updated playlists to repo
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Auto-update sports playlists"
+          file_pattern: |
+            sports_master.m3u
+            sports_master_free.m3u
+            
