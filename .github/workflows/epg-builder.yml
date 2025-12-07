@@ -25,7 +25,7 @@ jobs:
         cd epg_downloads
         
         # Replace these two URLs with your actual Drive file links (force download links)
-        XML_URL="https://drive.google.com/file/d/10z8VQfoiVlJBKTORT0POjb5WYbiAf3ps/view?usp=drivesdk"
+        XML_URL="https://drive.google.com/file/d/16EHifrYxpROFcnM0fps79WXYYA1yx__o/view?usp=drivesdk"
         GZ_URL="https://drive.google.com/file/d/16EHifrYxpROFcnM0fps79WXYYA1yx__o/view?usp=drivesdk"
 
         # Convert Drive share links to direct links
