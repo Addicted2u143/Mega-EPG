@@ -19,23 +19,17 @@ jobs:
         sudo apt-get install -y python3 python3-pip gzip
         pip install requests lxml
 
-    - name: Download XML + GZ from Google Drive
+        - name: Download XML + GZ from Google Drive
       run: |
-        mkdir epg_downloads
-        cd epg_downloads
-        
-        # Replace these two URLs with your actual Drive file links (force download links)
-        XML_URL="https://drive.google.com/file/d/16EHifrYxpROFcnM0fps79WXYYA1yx__o/view?usp=drivesdk"
-        GZ_URL="https://drive.google.com/file/d/16EHifrYxpROFcnM0fps79WXYYA1yx__o/view?usp=drivesdk"
+        mkdir -p epg_downloads
 
-        # Convert Drive share links to direct links
-        XML_DIRECT=$(echo $XML_URL | sed -E 's#https://drive.google.com/file/d/([^/]+)/.*#https://drive.google.com/uc?export=download&id=\1#')
-        GZ_DIRECT=$(echo $GZ_URL | sed -E 's#https://drive.google.com/file/d/([^/]+)/.*#https://drive.google.com/uc?export=download&id=\1#')
+        echo "Downloading latest XML..."
+        wget -O epg_downloads/combined_epg_latest.xml \
+          "https://drive.google.com/uc?export=download&id=10z8VQfoiVlJBKTORT0POjb5WYbiAf3ps"
 
-        wget -O latest.xml "$XML_DIRECT"
-        wget -O latest.xml.gz "$GZ_DIRECT"
-
-        cd ..
+        echo "Downloading latest GZ..."
+        wget -O epg_downloads/combined_epg_latest.xml.gz \
+          "https://drive.google.com/uc?export=download&id=16EHifrYxpROFcnM0fps79WXYYA1yx__o"
 
     - name: Re-compress for GitHub (good measure)
       run: |
