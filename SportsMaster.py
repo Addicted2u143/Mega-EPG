@@ -1,4 +1,3 @@
-import os
 import requests
 import pandas as pd
 import datetime as dt
@@ -7,22 +6,18 @@ import gzip
 from io import BytesIO
 from typing import List, Dict, Optional
 
-# ==========================
-# 1. USER SETTINGS FROM SECRETS
-# ==========================
+# ============================================================
+# 1. USER SETTINGS
+# ============================================================
 
-PAID_USERNAME = os.getenv("NOMAD_USER", "")
-PAID_PASSWORD = os.getenv("NOMAD_PASS", "")
-
-if not PAID_USERNAME or not PAID_PASSWORD:
-    raise RuntimeError("Nomad credentials missing. Check GitHub Secrets NOMAD_USER / NOMAD_PASS.")
+PAID_USERNAME = "username"
+PAID_PASSWORD = "password"
 
 PAID_URL = (
     f"http://nomadiptv.online:25461/get.php?"
     f"username={PAID_USERNAME}&password={PAID_PASSWORD}&type=m3u_plus&output=ts"
 )
 
-# Free playlists (sports-focused)
 free_playlists: List[str] = [
     "https://raw.githubusercontent.com/BuddyChewChew/ppv/refs/heads/main/PPVLand.m3u8",
     "https://raw.githubusercontent.com/BuddyChewChew/My-Streams/refs/heads/main/Pixelsports.m3u8",
@@ -33,15 +28,14 @@ free_playlists: List[str] = [
     "https://raw.githubusercontent.com/BuddyChewChew/iptv/refs/heads/main/M3U8/events.m3u8",
 ]
 
-# EPG: Nomad + EPGShare01
-epg_urls: List[str] = [
-    "http://nomadiptv.online:25461/xmltv.php?username=%s&password=%s" % (PAID_USERNAME, PAID_PASSWORD),
+epg_urls = [
     "https://epgshare01.online/epgshare01/epg_ripper_ALL_SOURCES1.xml.gz",
+    "http://nomadiptv.online:25461/xmltv.php"
 ]
 
-# ==========================
+# ============================================================
 # 2. CATEGORY DEFINITIONS
-# ==========================
+# ============================================================
 
 CATEGORY_ORDER: List[str] = [
     "🔥 Live Events",
@@ -60,64 +54,53 @@ CATEGORY_ORDER: List[str] = [
 ]
 
 SPORT_KEYWORDS: Dict[str, List[str]] = {
-    "🎲 Action & Odds": [
-        "poker", "pokergo", "wsop", "horse", "tvg", "sportsgrid", "vsin",
-        "bet", "odds", "wager", "handicapping"
-    ],
     "🏈 NFL Football": [
-        "nfl", "redzone", "nfl network", "nfln",
-        "monday night football", "thursday night football",
+        "nfl", "redzone", "red zone", "nfl network", "tnf", "mnf"
     ],
     "🎓🏈 NCAA Football": [
-        "ncaa", "college football", "cfb", "sec network", "acc network",
-        "big ten network", "btn", "pac-12", "pac 12", "longhorn network",
+        "ncaa", "college football", "cfb", "big ten", "sec network",
+        "btn", "acc network"
     ],
-    "🏀 NBA Basketball": [
-        "nba", "national basketball association",
-    ],
-    "🎓🏀 NCAA Basketball": [
-        "march madness", "college basketball", "ncaa basketball",
-    ],
-    "⚾ MLB Baseball": [
-        "mlb", "major league baseball", "mlb network",
-    ],
-    "🏒 NHL Hockey": [
-        "nhl", "national hockey league",
-    ],
+    "🏀 NBA Basketball": ["nba"],
+    "🎓🏀 NCAA Basketball": ["ncaa basketball", "march madness"],
+    "⚾ MLB Baseball": ["mlb", "major league baseball", "mlb network"],
+    "🏒 NHL Hockey": ["nhl"],
     "🥊 Fight Sports / PPV": [
-        "ufc", "mma", "boxing", "wwe", "aew", "fight", "ppv",
+        "ufc", "boxing", "wwe", "aew", "bellator", "fight", "ppv"
     ],
     "🏎️ Motorsports": [
-        "nascar", "f1", "formula", "indycar", "motogp",
+        "nascar", "indycar", "f1", "formula", "motogp", "motorsport"
     ],
     "⚽ Soccer": [
-        "soccer", "futbol", "premier league", "epl",
-        "laliga", "serie a", "bundesliga", "ucl", "mls",
+        "soccer", "premier league", "epl", "la liga", "bundesliga",
+        "serie a", "champions league", "ucl", "mls"
     ],
     "⛳🎾 Golf & Tennis": [
-        "golf", "pga", "tennis", "atp", "wta",
+        "golf", "pga", "ryder", "tennis", "atp", "wta", "open", "masters"
     ],
     "📺 Sports Networks (General)": [
-        "espn", "fs1", "fs2", "fox sports", "cbs sports", "cbssn",
-        "sky sports", "bein", "tsn", "sportsnet",
+        "espn", "fox sports", "fs1", "fs2", "cbssn", "tsn", "bein"
+    ],
+    "🎲 Action & Odds": [
+        "poker", "wsop", "pokergo", "vsin", "sportsgrid", "tvg",
+        "horseracing", "horse racing", "racing"
     ],
 }
 
-GENERIC_SPORT_WORDS = ["sport", "sports", "espn", "sky", "fox sports"]
+GENERIC_SPORT_WORDS = ["sport", "sports", "espn", "fox", "bein", "tsn"]
+EVENT_KEYWORDS = ["event", "ppv", "fight", "ufc", "round", "main event"]
+LIVE_HINTS = ["live", "en vivo", "live now", "in progress"]
 
-EVENT_KEYWORDS = ["event", "ufc", "ppv", "fight", "main event"]
-LIVE_HINTS = ["live", "in progress", "en vivo"]
-
-# ==========================
-# 3. HELPERS
-# ==========================
+# ============================================================
+# 3. BASIC HELPERS
+# ============================================================
 
 def download_m3u(url: str) -> str:
     try:
-        resp = requests.get(url, timeout=30)
-        resp.raise_for_status()
+        print(f"Fetching: {url}")
+        resp = requests.get(url, timeout=20)
         return resp.text
-    except Exception:
+    except:
         return ""
 
 def parse_m3u(text: str, source: str) -> pd.DataFrame:
@@ -127,26 +110,78 @@ def parse_m3u(text: str, source: str) -> pd.DataFrame:
 
     for line in lines:
         line = line.strip()
+
         if line.startswith("#EXTINF"):
-            name = (line.split(",", 1)[1] if "," in line else "").strip()
-            logo = extract_attr(line, "tvg-logo")
-            group = extract_attr(line, "group-title")
-            tvg_id = extract_attr(line, "tvg-id")
+            if "," in line:
+                name = line.split(",", 1)[1]
+            if 'tvg-logo="' in line:
+                logo = line.split('tvg-logo="')[1].split('"')[0]
+            if 'group-title="' in line:
+                group = line.split('group-title="')[1].split('"')[0]
+            if 'tvg-id="' in line:
+                tvg_id = line.split('tvg-id="')[1].split('"')[0]
+
         elif line.startswith("http"):
             rows.append([name, line, logo, group, tvg_id, source])
-    return pd.DataFrame(rows, columns=["name","url","logo","group","tvg_id","source"])
 
-def extract_attr(text: str, key: str) -> str:
-    if f'{key}="' in text:
-        return text.split(f'{key}="')[1].split('"')[0]
-    return ""
+    return pd.DataFrame(rows, columns=["name", "url", "logo", "group", "tvg_id", "source"])
 
-def text_contains_any(text: Optional[str], words: List[str]) -> bool:
-    if not isinstance(text, str): return False
-    t = text.lower()
-    return any(w in t for w in words)
+def extract_event_number(name: str) -> Optional[int]:
+    import re
+    m = re.search(r"(\b\d{1,3}\b)", name.lower())
+    return int(m.group()) if m else None
 
-def classify_sport(name: str, group: str) -> str:
+# ============================================================
+# 4. EPG LOADING & PARSING
+# ============================================================
+
+def download_epg(urls: List[str]) -> pd.DataFrame:
+    rows = []
+
+    for url in urls:
+        print(f"Fetching EPG: {url}")
+        try:
+            resp = requests.get(url, timeout=40)
+            content = resp.content
+
+            if url.endswith(".gz") or content[:2] == b"\x1f\x8b":
+                xml = gzip.decompress(content).decode("utf-8", "ignore")
+            else:
+                xml = content.decode("utf-8", "ignore")
+
+            root = ET.fromstring(xml)
+
+            for prog in root.findall("programme"):
+                chan = prog.get("channel", "")
+                start = prog.get("start", "")
+                stop = prog.get("stop", "")
+                title_el = prog.find("title")
+                title = title_el.text if title_el is not None else ""
+                rows.append([chan, title, start, stop])
+
+        except:
+            continue
+
+    df = pd.DataFrame(rows, columns=["channel_id", "title", "start_raw", "stop_raw"])
+
+    def parse(t):
+        try:
+            if " " in t:
+                return dt.datetime.strptime(t, "%Y%m%d%H%M%S %z")
+            return dt.datetime.strptime(t[:14], "%Y%m%d%H%M%S").replace(tzinfo=dt.timezone.utc)
+        except:
+            return None
+
+    df["start_dt"] = df["start_raw"].apply(parse)
+    df["stop_dt"] = df["stop_raw"].apply(parse)
+    df = df.dropna(subset=["start_dt", "stop_dt"])
+    return df
+
+# ============================================================
+# 5. SPORTS LOGIC
+# ============================================================
+
+def classify_category(name: str, group: str) -> str:
     combo = f"{name.lower()} {group.lower()}"
     for cat, keys in SPORT_KEYWORDS.items():
         if any(k in combo for k in keys):
@@ -155,114 +190,128 @@ def classify_sport(name: str, group: str) -> str:
         return "📺 Sports Networks (General)"
     return ""
 
-def is_event(name: str, group: str) -> bool:
-    combo = f"{name.lower()} {group.lower()}"
-    return any(k in combo for k in EVENT_KEYWORDS)
+def attach_current_epg(df, epg):
+    if df.empty or epg.empty:
+        df["epg_now"] = ""
+        return df
 
-# ==========================
-# 4. EPG
-# ==========================
+    now = dt.datetime.now(dt.timezone.utc)  # FIXED — tz-aware
 
-def download_epg(urls: List[str]) -> pd.DataFrame:
-    rows = []
-    for url in urls:
-        try:
-            resp = requests.get(url, timeout=40)
-            content = resp.content
-            if url.endswith(".gz") or content[:2] == b"\x1f\x8b":
-                content = gzip.GzipFile(fileobj=BytesIO(content)).read()
-            xml = content.decode("utf-8", errors="ignore")
-            root = ET.fromstring(xml)
-            for p in root.findall("programme"):
-                ch = p.get("channel","")
-                start=p.get("start","")
-                stop=p.get("stop","")
-                title_el=p.find("title")
-                title=title_el.text if (title_el is not None and title_el.text) else ""
-                rows.append([ch,title,start,stop])
-        except:
-            continue
+    current = epg[(epg["start_dt"] <= now) & (epg["stop_dt"] >= now)]
+    if current.empty:
+        df["epg_now"] = ""
+        return df
 
-    df=pd.DataFrame(rows,columns=["channel","title","start","stop"])
+    current = current.groupby("channel_id")["title"].first().reset_index()
+
+    df["tvg_id_clean"] = df["tvg_id"].fillna("").astype(str)
+    merged = df.merge(current, left_on="tvg_id_clean", right_on="channel_id", how="left")
+    merged["epg_now"] = merged["title"].fillna("")
+    return merged.drop(columns=["channel_id", "title"])
+
+# ============================================================
+# 6. MAIN BUILD PIPELINE
+# ============================================================
+
+def load_playlists():
+    dfs = []
+
+    paid = download_m3u(PAID_URL)
+    if paid.strip():
+        dfs.append(parse_m3u(paid, "paid"))
+
+    for url in free_playlists:
+        text = download_m3u(url)
+        if text.strip():
+            dfs.append(parse_m3u(text, "free"))
+
+    merged = pd.concat(dfs, ignore_index=True)
+    merged = merged.drop_duplicates(subset=["url"], keep="first")
+    return merged
+
+def enrich(df, epg):
+    df["sport_category"] = df.apply(lambda r: classify_category(r["name"], r["group"]), axis=1)
+    df = df[df["sport_category"] != ""].copy()
+
+    df["is_event"] = df["name"].str.lower().apply(lambda x: any(k in x for k in EVENT_KEYWORDS))
+    df["event_number"] = df["name"].apply(extract_event_number)
+
+    df = attach_current_epg(df, epg)
+
+    df["is_live"] = df.apply(
+        lambda r: bool(r["epg_now"]) or any(h in r["name"].lower() for h in LIVE_HINTS),
+        axis=1
+    )
+
     return df
 
-# ==========================
-# 5. BUILD
-# ==========================
+# ============================================================
+# 7. CATEGORY BUILD
+# ============================================================
+
+def build_live(df):
+    live = df[df["is_live"] & df["is_event"]].copy()
+    if live.empty:
+        return live
+    live["output_group"] = "🔥 Live Events"
+    return live.sort_values(by=["sport_category", "event_number", "name"])
+
+def build_categories(df):
+    blocks = []
+    for cat in CATEGORY_ORDER:
+        if cat == "🔥 Live Events":
+            continue
+        sub = df[df["sport_category"] == cat].copy()
+        if sub.empty:
+            continue
+        sub["output_group"] = cat
+        sub = sub.sort_values(by=["is_live", "name"], ascending=[False, True])
+        blocks.append(sub)
+    return pd.concat(blocks, ignore_index=True)
+
+# ============================================================
+# 8. EXPORT
+# ============================================================
+
+def export(df, path):
+    with open(path, "w", encoding="utf-8") as f:
+        f.write("#EXTM3U\n")
+        for _, r in df.iterrows():
+            name = r["epg_now"] + " | " + r["name"] if r["epg_now"] else r["name"]
+            f.write(
+                f'#EXTINF:-1 tvg-id="{r["tvg_id"]}" tvg-logo="{r["logo"]}" '
+                f'group-title="{r["output_group"]}",{name}\n{r["url"]}\n'
+            )
+
+# ============================================================
+# 9. MAIN
+# ============================================================
 
 def main():
-
     print("Loading playlists…")
-    paid_text = download_m3u(PAID_URL)
-    paid_df = parse_m3u(paid_text,"paid") if paid_text else pd.DataFrame()
-
-    free_dfs=[]
-    for url in free_playlists:
-        txt=download_m3u(url)
-        if txt:
-            free_dfs.append(parse_m3u(txt,"free"))
-
-    merged=pd.concat([paid_df]+free_dfs,ignore_index=True)
-    merged["name"]=merged["name"].fillna("").astype(str)
-    merged["group"]=merged["group"].fillna("").astype(str)
-
-    # dedupe by URL, paid wins
-    merged["priority"]=merged["source"].map({"paid":0,"free":1})
-    merged=merged.sort_values("priority").drop_duplicates("url",keep="first")
+    merged = load_playlists()
 
     print("Loading EPG…")
-    epg=download_epg(epg_urls)
+    epg = download_epg(epg_urls)
 
-    # attach EPG titles
-    merged["epg_title"]=""
-    if not epg.empty:
-        now=dt.datetime.utcnow()
-        epg["start_dt"]=pd.to_datetime(epg["start"],errors="coerce")
-        epg["stop_dt"]=pd.to_datetime(epg["stop"],errors="coerce")
-        current=epg[(epg["start_dt"]<=now)&(epg["stop_dt"]>=now)]
-        if not current.empty:
-            latest=current.groupby("channel")["title"].first()
-            merged["epg_title"]=merged["tvg_id"].map(latest).fillna("")
+    print("Classifying sports…")
+    enriched = enrich(merged, epg)
 
-    # classification
-    merged["category"]=merged.apply(lambda r: classify_sport(r["name"],r["group"]),axis=1)
-    merged=merged[merged["category"]!=""]
+    print("Building Live Events…")
+    live = build_live(enriched)
 
-    merged["is_event"]=merged.apply(lambda r:is_event(r["name"],r["group"]),axis=1)
-    merged["is_live"]=merged["epg_title"].astype(bool) | merged["name"].str.contains("live",case=False)
+    print("Building categories…")
+    cats = build_categories(enriched)
 
-    # Live Events block
-    live_block=merged[(merged["is_event"])&(merged["is_live"])].copy()
-    live_block["output_group"]="🔥 Live Events"
+    final = pd.concat([live, cats], ignore_index=True)
 
-    # category blocks
-    blocks=[]
-    for cat in CATEGORY_ORDER:
-        if cat=="🔥 Live Events": continue
-        sub=merged[merged["category"]==cat].copy()
-        if sub.empty: continue
-        sub=sub.sort_values(["is_live","name"],ascending=[False,True])
-        sub["output_group"]=cat
-        blocks.append(sub)
+    # Paid + free:
+    export(final, "sports_master.m3u")
 
-    final=pd.concat(([live_block] if not live_block.empty else [])+blocks,ignore_index=True)
+    # Free-only:
+    export(final[final["source"] != "paid"], "sports_master_free.m3u")
 
-    # export
-    export(final, "sports_master.m3u", use_epg=True)
+    print("Done!")
 
-    free=final[final["source"]!="paid"].copy()
-    export(free,"sports_master_free.m3u",use_epg=True)
-
-    print("Done.")
-
-def export(df,path,use_epg):
-    with open(path,"w",encoding="utf-8") as f:
-        f.write("#EXTM3U\n")
-        for _,r in df.iterrows():
-            title = r["epg_title"]+" | "+r["name"] if (use_epg and r["epg_title"]) else r["name"]
-            f.write(f'#EXTINF:-1 tvg-id="{r["tvg_id"]}" tvg-logo="{r["logo"]}" group-title="{r["output_group"]}",{title}\n')
-            f.write(r["url"]+"\n")
-
-if __name__=="__main__":
+if __name__ == "__main__":
     main()
-    
