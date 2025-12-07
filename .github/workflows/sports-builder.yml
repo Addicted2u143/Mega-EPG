@@ -1,4 +1,4 @@
-name: Sports Auto-Updater
+name: Sports AutoUpdater
 
 on:
   schedule:
@@ -6,29 +6,32 @@ on:
   workflow_dispatch:
 
 jobs:
-  update-sports:
+  update-sports-playlists:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
+      - name: Checkout repository
         uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
 
       - name: Install dependencies
         run: |
           pip install pandas requests google-api-python-client google-auth google-auth-oauthlib google-auth-httplib2
 
-      - name: Run SportsMaster.py
-        env:
-          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
-          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
-          GOOGLE_REFRESH_TOKEN: ${{ secrets.GOOGLE_REFRESH_TOKEN }}
-        run: python SportsMaster.py
+      - name: Create credentials.json
+        run: |
+          echo '${{ secrets.GDRIVE_JSON }}' > credentials.json
 
-      - name: Upload updated playlists to repo
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: "Auto-update sports playlists"
-          file_pattern: |
-            sports_master.m3u
-            sports_master_free.m3u
-            
+      - name: Run Playlist Builder
+        env:
+          GDRIVE_FOLDER: "${{ secrets.GDRIVE_FOLDER }}"
+        run: |
+          python SportsMaster.py
+
+      - name: Cleanup
+        run: rm -f credentials.json
+        
