@@ -21,8 +21,11 @@ jobs:
         sudo apt-get install -y python3 python3-pip
         pip install requests pandas lxml
 
-    # 3. Run SportsMaster Python Script
+    # 3. Run SportsMaster Python Script WITH SECRETS
     - name: Run SportsMaster builder
+      env:
+        NOMAD_USER: ${{ secrets.NOMAD_USER }}
+        NOMAD_PASS: ${{ secrets.NOMAD_PASS }}
       run: |
         python3 SportsMaster.py
 
