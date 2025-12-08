@@ -121,6 +121,7 @@ SPORT_KEYWORDS: Dict[str, List[str]] = {
     ],
     "🏎️ Motorsports": ["motorsport", "nascar", "sports",
     ],
+}
 
 # Action & Odds (betting, poker, horse racing, studio shows)
 ACTION_ODDS_KEYWORDS: List[str] = [
