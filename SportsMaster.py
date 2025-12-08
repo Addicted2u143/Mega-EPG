@@ -69,13 +69,17 @@ CATEGORY_ORDER: List[str] = [
     "🎓🏀 NCAA Basketball",
     "⚾ MLB Baseball",
     "🏒 NHL Hockey",
+    "🥊 Fight Sports/PPV",
+	"🏎️ Motorsports",
     "⚽ Soccer",
     "⛳🎾 Golf & Tennis",
     "📦 Sports Everything Else",
 ]
 
 # Core sports categories
-SPORT_KEYWORDS: Dict[str, List[str]] = {
+: Dict[str, List[str]] = {
+    "🎲 Action & Odds": ["betting", "gambling", "poker", "pokergo", "horse", "fandual racing", "tvg", "sportsgrid", "vsin", "wsop", "odds"
+    ],
     "🏈 NFL Football": [
         "nfl", "redzone", "red zone", "nfl network", "nfln",
         "thursday night football", "monday night football", "sunday night football",
@@ -96,6 +100,8 @@ SPORT_KEYWORDS: Dict[str, List[str]] = {
     "🏒 NHL Hockey": [
         "nhl", "national hockey league",
     ],
+      "🥊 Fight Sports/PPV": ["boxing", "mma", "wrestling", "ufc", "bellator"
+    ],
     "⚽ Soccer": [
         "soccer", "futbol", "football club", "premier league", "epl",
         "laliga", "la liga", "serie a", "bundesliga", "champions league",
@@ -113,7 +119,8 @@ SPORT_KEYWORDS: Dict[str, List[str]] = {
         "sec network", "acc network", "big ten network", "btn",
         "tsn", "bein", "sky sports", "sportsnet", "tnt sports",
     ],
-}
+    "🏎️ Motorsports": ["motorsport", "nascar", "sports",
+    ],
 
 # Action & Odds (betting, poker, horse racing, studio shows)
 ACTION_ODDS_KEYWORDS: List[str] = [
