@@ -77,7 +77,7 @@ CATEGORY_ORDER: List[str] = [
 ]
 
 # Core sports categories
-: Dict[str, List[str]] = {
+SPORT_KEYWORDS: Dict[str, List[str]] = {
     "🎲 Action & Odds": ["betting", "gambling", "poker", "pokergo", "horse", "fandual racing", "tvg", "sportsgrid", "vsin", "wsop", "odds"
     ],
     "🏈 NFL Football": [
