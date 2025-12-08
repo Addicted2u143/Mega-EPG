@@ -3,7 +3,7 @@ name: Build Sports Playlists Hourly
 on:
   schedule:
     - cron: "0 * * * *"     # Runs every hour
-  workflow_dispatch:        # Manual run button
+  workflow_dispatch:        # Manual run button in GitHub UI
 
 jobs:
   build_sports:
@@ -21,7 +21,7 @@ jobs:
         sudo apt-get install -y python3 python3-pip
         pip install requests pandas lxml
 
-    # 3. Run SportsMaster Python Script WITH SECRETS
+    # 3. Run SportsMaster Python Script
     - name: Run SportsMaster builder
       env:
         NOMAD_USER: ${{ secrets.NOMAD_USER }}
@@ -40,7 +40,7 @@ jobs:
         echo "===== sports_master_free.m3u =====" > logs/sports_master_free.m3u.log.txt
         cat sports_master_free.m3u >> logs/sports_master_free.m3u.log.txt
 
-    # 5. Upload updated playlists + logs back to GitHub
+    # 5. Upload updated playlists + logs + EPG back to GitHub
     - name: Commit updated playlists + logs
       uses: stefanzweifel/git-auto-commit-action@v5
       with:
@@ -48,4 +48,7 @@ jobs:
         file_pattern: |
           sports_master.m3u
           sports_master_free.m3u
+          sports_master_epg.xml
+          sports_master_epg.xml.gz
           logs/*.txt
+          
