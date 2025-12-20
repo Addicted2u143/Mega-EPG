@@ -1,10 +1,8 @@
 import requests
-import pandas as pd
-import re
-from datetime import datetime
+from collections import OrderedDict
 
 # ============================================================
-# 1. FREE PLAYLIST SOURCES (RAW ONLY – NO GITHUB HTML LINKS)
+# SPORTS MASTER — FREE ONLY — PRODUCTION SAFE
 # ============================================================
 
 FREE_PLAYLISTS = [
@@ -19,131 +17,161 @@ FREE_PLAYLISTS = [
     "https://raw.githubusercontent.com/BuddyChewChew/My-Streams/main/Backup.m3u",
     "https://raw.githubusercontent.com/BuddyChewChew/My-Streams/main/StreamedSU.m3u8",
     "https://raw.githubusercontent.com/BuddyChewChew/iptv/main/M3U8/events.m3u8",
-    "https://www.apsattv.com/cineverse.m3u",
-    "https://www.apsattv.com/distro.m3u",
-    "https://www.apsattv.com/firetv.m3u",
     "https://pluto.freechannels.me/playlist.m3u",
-    "https://www.apsattv.com/freelivesports.m3u",
-    "https://www.apsattv.com/freemoviesplus.m3u",
-    "https://www.apsattv.com/freetv.m3u",
-    "https://www.apsattv.com/galxytv.m3u",
-    "https://www.apsattv.com/klowd.m3u",
-    "https://www.apsattv.com/gblg.m3u",
-    "https://www.apsattv.com/uslg.m3u",
-    "https://www.apsattv.com/localnow.m3u",
-    "https://iptv-org.github.io/iptv/languages/eng.m3u"
+    "https://www.apsattv.com/freelivesports.m3u"
 ]
 
 # ============================================================
-# 2. CATEGORY DEFINITIONS (FINAL – NO COMMENTARY)
+# CATEGORY DEFINITIONS (FINAL)
 # ============================================================
 
-CATEGORY_KEYWORDS = {
-    "📺 Sports Networks": ["espn", "fox sports", "tsn", "bein", "sportsnet", "sky sports"],
-    "🎲 Action & Odds": ["bet", "poker", "odds", "casino"],
-    "🐎 Horse Racing": ["horse", "racing", "track"],
-    "🏈 NFL Football": ["nfl"],
-    "🏉 NCAA Football": ["ncaaf", "college football"],
-    "🏀 NBA Basketball": ["nba"],
-    "🏀 NCAA Basketball": ["ncaab", "college basketball", "march madness"],
-    "⚾ MLB Baseball": ["mlb", "baseball"],
-    "🏒 NHL Hockey": ["nhl", "hockey"],
-    "🥊 Fight Sports / PPV": ["ufc", "boxing", "mma", "wwe", "ppv"],
-    "🎣 Fishing & Hunting": ["fishing", "hunting", "outdoor"],
-    "🏎 Motorsports": ["nascar", "f1", "formula", "indycar", "motogp"],
-    "⚽ Soccer": ["soccer", "futbol", "premier", "laliga", "bundesliga", "mls"],
-    "⛳ Golf & Tennis": ["golf", "tennis", "pga", "atp", "wta"],
+CATEGORIES = OrderedDict({
+    "📺 Sports Networks (General)": [
+        "espn", "fox sports", "sportsnet", "bein", "tsn", "sky sports"
+    ],
+    "🎲 Action & Odds": [
+        "vsin", "fanduel", "sportsgrid", "poker"
+    ],
+    "🐎 Horse Racing": [
+        "horse", "racing", "tvg"
+    ],
+    "🏈 NFL Football": [
+        "nfl", "redzone"
+    ],
+    "🏉 NCAA Football": [
+        "ncaaf", "college football", "sec network", "acc network", "big ten"
+    ],
+    "🏀 NBA Basketball": [
+        "nba"
+    ],
+    "🏀 NCAA Basketball": [
+        "ncaab", "college basketball", "march madness"
+    ],
+    "⚾ MLB Baseball": [
+        "mlb", "baseball"
+    ],
+    "🏒 NHL Hockey": [
+        "nhl", "hockey"
+    ],
+    "🥊 Fight Sports / PPV": [
+        "ufc", "boxing", "mma", "wwe", "ppv"
+    ],
+    "🎣 Fishing & Hunting": [
+        "fishing", "hunting", "outdoor"
+    ],
+    "🏎️ Motorsports": [
+        "nascar", "formula", "f1", "indycar", "motogp"
+    ],
+    "⚽ Soccer": [
+        "soccer", "futbol", "premier", "laliga", "bundesliga", "mls"
+    ],
+    "⛳ Golf & Tennis": [
+        "golf", "tennis", "pga", "atp", "wta"
+    ],
     "📦 Sports Everything Else": []
-}
+})
 
-LIVE_HINTS = ["live", "event", "match", "game", "fight", "now"]
+# Explicit exclusions (prevents false positives)
+BET_EXCLUSIONS = [
+    "bet ",       # BET channel prefix
+    "bet+", 
+    "bet her",
+    "bet soul",
+    "black entertainment"
+]
+
+LIVE_KEYWORDS = [
+    "live", "event", "match", "vs", "fight", "game", "now"
+]
 
 # ============================================================
-# 3. CORE HELPERS
+# HELPERS
 # ============================================================
 
-def fetch_m3u(url):
+def fetch(url):
     try:
-        print(f"Fetching: {url}")
-        r = requests.get(url, timeout=25)
-        if r.status_code == 200:
+        r = requests.get(url, timeout=20)
+        if r.status_code == 200 and "#EXTM3U" in r.text:
             return r.text
-    except Exception as e:
-        print(f"Failed: {url}")
+    except:
+        pass
     return ""
 
 def parse_m3u(text):
-    rows = []
-    name = logo = group = tvg_id = ""
+    entries = []
+    name = None
     for line in text.splitlines():
         if line.startswith("#EXTINF"):
             name = line.split(",")[-1].strip()
-            logo = re.search(r'tvg-logo="([^"]*)"', line)
-            group = re.search(r'group-title="([^"]*)"', line)
-            tvg_id = re.search(r'tvg-id="([^"]*)"', line)
-            logo = logo.group(1) if logo else ""
-            group = group.group(1) if group else ""
-            tvg_id = tvg_id.group(1) if tvg_id else ""
-        elif line.startswith("http"):
-            rows.append([name, line.strip(), logo, group, tvg_id])
-    return pd.DataFrame(rows, columns=["name", "url", "logo", "group", "tvg_id"])
+        elif line.startswith("http") and name:
+            entries.append((name, line.strip()))
+            name = None
+    return entries
 
-def classify_channel(name, group):
-    text = f"{name} {group}".lower()
-    for cat, keys in CATEGORY_KEYWORDS.items():
-        if any(k in text for k in keys):
+def is_bet_entertainment(name):
+    lname = name.lower()
+    return any(bad in lname for bad in BET_EXCLUSIONS)
+
+def classify(name):
+    lname = name.lower()
+
+    # Hard exclusion: BET ≠ betting
+    if is_bet_entertainment(lname):
+        return "📦 Sports Everything Else"
+
+    for cat, keys in CATEGORIES.items():
+        if any(k in lname for k in keys):
             return cat
-    return None
 
-def is_live(name, group):
-    text = f"{name} {group}".lower()
-    return any(k in text for k in LIVE_HINTS)
+    return "📦 Sports Everything Else"
+
+def is_live(name):
+    lname = name.lower()
+    return any(k in lname for k in LIVE_KEYWORDS)
 
 # ============================================================
-# 4. BUILD PLAYLIST
+# BUILD PLAYLIST
 # ============================================================
 
 def build_playlist():
-    frames = []
-    for url in FREE_PLAYLISTS:
-        raw = fetch_m3u(url)
-        if raw:
-            frames.append(parse_m3u(raw))
+    seen_urls = set()
+    categorized = {cat: [] for cat in CATEGORIES}
 
-    df = pd.concat(frames, ignore_index=True)
-    df["category"] = df.apply(lambda r: classify_channel(r["name"], r["group"]), axis=1)
-    df = df[df["category"].notna()]
-    df["live"] = df.apply(lambda r: is_live(r["name"], r["group"]), axis=1)
-    return df
+    for src in FREE_PLAYLISTS:
+        print(f"Fetching: {src}")
+        text = fetch(src)
+        for name, url in parse_m3u(text):
+            if not name or url in seen_urls:
+                continue
+            seen_urls.add(url)
+
+            cat = classify(name)
+            live = is_live(name)
+            categorized[cat].append((live, name, url))
+
+    return categorized
 
 # ============================================================
-# 5. EXPORT
+# EXPORT
 # ============================================================
 
-def export_m3u(df, path):
+def export_m3u(categorized, path):
     with open(path, "w", encoding="utf-8") as f:
         f.write("#EXTM3U\n")
-        for cat in CATEGORY_KEYWORDS.keys():
-            block = df[df["category"] == cat]
-            if block.empty:
+        for cat, items in categorized.items():
+            if not items:
                 continue
-            block = pd.concat([
-                block[block["live"]],
-                block[~block["live"]]
-            ])
-            for _, r in block.iterrows():
-                f.write(
-                    f'#EXTINF:-1 tvg-id="{r.tvg_id}" tvg-logo="{r.logo}" '
-                    f'group-title="{cat}",{r.name}\n'
-                )
-                f.write(r.url + "\n")
+            items.sort(key=lambda x: (not x[0], x[1].lower()))
+            for live, name, url in items:
+                f.write(f'#EXTINF:-1 group-title="{cat}",{name}\n')
+                f.write(url + "\n")
 
 # ============================================================
-# 6. RUN
+# RUN
 # ============================================================
 
 if __name__ == "__main__":
-    print("Building Sports Master playlist…")
-    df = build_playlist()
-    export_m3u(df, "sports_master.m3u")
-    print("Done → sports_master.m3u generated")
+    print("Building Sports Master playlist...")
+    playlist = build_playlist()
+    export_m3u(playlist, "sports_master.m3u")
+    print("Done → sports_master.m3u")
