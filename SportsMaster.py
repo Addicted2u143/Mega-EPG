@@ -1,31 +1,29 @@
 import requests
 
 # =====================================================
-# PLAYLIST SOURCES (FREE ONLY — FULL + SAFE)
+# PLAYLIST SOURCES (FREE ONLY — FULL, SAFE LIST)
 # =====================================================
 PLAYLISTS = [
 
     # -------------------------------------------------
-    # CORE LIVE / PPV / EVENTS (DO NOT MODIFY GROUPS)
+    # CORE LIVE / PPV / EVENTS (DYNAMIC — DO NOT TOUCH)
     # -------------------------------------------------
     "https://raw.githubusercontent.com/BuddyChewChew/ppv/refs/heads/main/PPVLand.m3u8",
-
     "https://raw.githubusercontent.com/BuddyChewChew/My-Streams/refs/heads/main/StreamSU.m3u",
     "https://raw.githubusercontent.com/BuddyChewChew/My-Streams/refs/heads/main/StreamedSU.m3u8",
     "https://raw.githubusercontent.com/BuddyChewChew/My-Streams/refs/heads/main/Pixelsports.m3u8",
     "https://raw.githubusercontent.com/BuddyChewChew/My-Streams/refs/heads/main/Backup.m3u",
-
     "https://raw.githubusercontent.com/BuddyChewChew/iptv/refs/heads/main/M3U8/events.m3u8",
 
     # -------------------------------------------------
-    # BUDDYCHEW LIVE ECOSYSTEM (KEEP ORIGINAL GROUPS)
+    # BUDDYCHEW LIVE ECOSYSTEM (KEEP GROUPS)
     # -------------------------------------------------
     "https://raw.githubusercontent.com/BuddyChewChew/buddylive-combined/refs/heads/main/combined_playlist.m3u",
     "https://raw.githubusercontent.com/BuddyChewChew/buddylive/refs/heads/main/buddylive_v1.m3u",
     "https://raw.githubusercontent.com/BuddyChewChew/buddylive/refs/heads/main/en/videoall.m3u",
 
     # -------------------------------------------------
-    # FAST / HYBRID SOURCES (SPORTS INSIDE)
+    # FAST / HYBRID (SPORTS HIDDEN INSIDE)
     # -------------------------------------------------
     "https://pluto.freechannels.me/playlist.m3u",
     "https://nocords.xyz/pluto/playlist.m3u",
@@ -43,7 +41,7 @@ PLAYLISTS = [
     "https://raw.githubusercontent.com/BuddyChewChew/xumo-playlist-generator/refs/heads/main/playlists/xumo_playlist.m3u",
 
     # -------------------------------------------------
-    # APSATTV (BACKUP + EDGE SPORTS)
+    # APSATTV (BACKUP / EDGE SPORTS)
     # -------------------------------------------------
     "https://www.apsattv.com/freelivesports.m3u",
     "https://www.apsattv.com/freetv.m3u",
@@ -55,43 +53,24 @@ PLAYLISTS = [
 ]
 
 # =====================================================
-# CATEGORY ORDER (YOUR EXACT PREFERENCE)
+# STATIC FALLBACK CATEGORY ORDER (FIRST MATCH WINS)
 # =====================================================
-CATEGORY_ORDER = [
-    "Live Feeds",
-    "Poker & Sports Betting",
-    "Horse Racing",
-    "Football",
-    "Basketball",
-    "Baseball (MLB)",
-    "Hockey",
-    "Combat Sports / PPV",
-    "Fishing & Hunting",
-    "Soccer",
-    "Motorsports",
-    "Sports Networks",
-    "Sports Everything Else",
+FALLBACK_GROUPS = [
+    ("Sports Networks (General)", ["sports network", "sportsnet", "espn", "fox sports", "cbs sports"]),
+    ("Poker & Sports Betting", ["poker", "bet", "odds"]),
+    ("Horse Racing", ["horse", "racing"]),
+    ("Football", ["football", "nfl"]),
+    ("Basketball", ["basketball", "nba"]),
+    ("Baseball", ["baseball", "mlb"]),
+    ("Hockey", ["hockey", "nhl"]),
+    ("Fight Sports / PPV", ["ufc", "boxing", "mma", "wwe", "fight", "ppv"]),
+    ("Fishing & Hunting", ["fishing", "hunting", "outdoor"]),
+    ("Motorsports", ["nascar", "f1", "formula", "indy"]),
+    ("Soccer", ["soccer", "futbol", "mls"]),
+    ("Golf & Tennis", ["golf", "tennis"]),
 ]
 
-# =====================================================
-# ANCHOR DEFINITIONS (STATIC ONLY)
-# =====================================================
-ANCHORS = {
-    "Live Feeds": ["live", "event", "ppv"],
-    "Poker & Sports Betting": ["poker", "bet", "odds"],
-    "Horse Racing": ["horse", "racing"],
-    "Football": ["nfl", "football", "ncaa"],
-    "Basketball": ["nba", "basketball"],
-    "Baseball (MLB)": ["mlb", "baseball"],
-    "Hockey": ["nhl", "hockey"],
-    "Combat Sports / PPV": ["ufc", "mma", "boxing", "wwe", "fight"],
-    "Fishing & Hunting": ["fishing", "hunting", "outdoor"],
-    "Soccer": ["soccer", "futbol", "mls", "premier"],
-    "Motorsports": ["nascar", "f1", "formula", "indy"],
-    "Sports Networks": ["espn", "fox sports", "cbs sports", "nbc sports"],
-}
-
-DEFAULT_ANCHOR = "Sports Everything Else"
+DEFAULT_GROUP = "Sports Everything Else"
 
 # =====================================================
 # HELPERS
@@ -102,18 +81,18 @@ def fetch(url):
     except:
         return ""
 
-def find_anchor(name, group):
-    text = f"{name} {group}".lower()
-    for anchor, keys in ANCHORS.items():
+def classify(name):
+    text = name.lower()
+    for group, keys in FALLBACK_GROUPS:
         if any(k in text for k in keys):
-            return anchor
-    return DEFAULT_ANCHOR
+            return group
+    return DEFAULT_GROUP
 
 # =====================================================
-# PARSE + SAFE REWRITE
+# PARSE + SAFE MERGE
 # =====================================================
 output = ["#EXTM3U"]
-current = {}
+current_extinf = None
 
 for url in PLAYLISTS:
     text = fetch(url)
@@ -122,43 +101,29 @@ for url in PLAYLISTS:
 
     for line in text.splitlines():
         if line.startswith("#EXTINF"):
-            current.clear()
-            current["raw"] = line
-            current["name"] = line.split(",")[-1].strip()
+            current_extinf = line
+            name = line.split(",")[-1]
 
-            group = ""
+            # If group-title exists, DO NOT TOUCH IT
             if 'group-title="' in line:
-                group = line.split('group-title="')[1].split('"')[0]
-
-            anchor = find_anchor(current["name"], group)
-
-            # -------------------------------------------------
-            # RULES:
-            # 1. NEVER change existing group-title
-            # 2. If no group-title exists, add anchor only
-            # -------------------------------------------------
-            rebuilt = line
-
-            if 'group-title="' not in rebuilt:
-                rebuilt = rebuilt.replace(
+                rebuilt = line
+            else:
+                group = classify(name)
+                rebuilt = line.replace(
                     "#EXTINF:-1",
-                    f'#EXTINF:-1 group-title="{anchor}"'
+                    f'#EXTINF:-1 group-title="{group}"'
                 )
 
-            current["extinf"] = rebuilt
+            current_extinf = rebuilt
 
-        elif line.startswith("http"):
-            output.append(current["extinf"])
-            output.append(line.strip())
+        elif line.startswith("http") and current_extinf:
+            output.append(current_extinf)
+            output.append(line)
 
 # =====================================================
 # WRITE FILE
 # =====================================================
-with open("SportsMaster_Stable.m3u", "w", encoding="utf-8") as f:
+with open("SportsMaster_FINAL.m3u", "w", encoding="utf-8") as f:
     f.write("\n".join(output))
 
-print("DONE: SportsMaster_Stable.m3u")
-print("• Channel names preserved")
-print("• Logos untouched")
-print("• Dynamic event groups intact")
-print("• Category order locked")
+print("DONE: SportsMaster_FINAL.m3u (dynamic-safe, ordered, stable)")
