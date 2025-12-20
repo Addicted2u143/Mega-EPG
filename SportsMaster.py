@@ -1,178 +1,133 @@
 import requests
 import re
-from collections import OrderedDict
+from collections import defaultdict
 
-# ============================================================
-# SPORTS MASTER — FREE PLAYLISTS ONLY — FINAL
-# ============================================================
+# ==========================================================
+# FREE PLAYLIST SOURCES (ALL INCLUDED)
+# ==========================================================
 
 FREE_PLAYLISTS = [
-    # APSATTV
     "https://www.apsattv.com/10fast.m3u",
-    "https://www.apsattv.com/cineverse.m3u",
-    "https://www.apsattv.com/distro.m3u",
-    "https://www.apsattv.com/firetv.m3u",
-    "https://www.apsattv.com/freelivesports.m3u",
-    "https://www.apsattv.com/freemoviesplus.m3u",
     "https://www.apsattv.com/freetv.m3u",
+    "https://www.apsattv.com/freelivesports.m3u",
     "https://www.apsattv.com/galxytv.m3u",
     "https://www.apsattv.com/klowd.m3u",
     "https://www.apsattv.com/gblg.m3u",
     "https://www.apsattv.com/uslg.m3u",
     "https://www.apsattv.com/localnow.m3u",
-
-    # IPTV-ORG
-    "https://iptv-org.github.io/iptv/languages/eng.m3u",
-    "https://raw.githubusercontent.com/iptv-org/iptv/master/streams/us.m3u",
-    "https://raw.githubusercontent.com/iptv-org/iptv/master/streams/uk.m3u",
-    "https://raw.githubusercontent.com/iptv-org/iptv/master/streams/ca.m3u",
-    "https://raw.githubusercontent.com/iptv-org/iptv/master/streams/au.m3u",
-    "https://raw.githubusercontent.com/iptv-org/iptv/master/streams/us_abcnews.m3u",
-    "https://raw.githubusercontent.com/iptv-org/iptv/master/streams/us_pbs.m3u",
-    "https://raw.githubusercontent.com/iptv-org/iptv/master/streams/us_cbsn.m3u",
-    "https://raw.githubusercontent.com/iptv-org/iptv/master/streams/us_canelatv.m3u",
-    "https://raw.githubusercontent.com/iptv-org/iptv/master/streams/us_firetv.m3u",
-    "https://raw.githubusercontent.com/iptv-org/iptv/master/streams/us_distro.m3u",
-    "https://raw.githubusercontent.com/iptv-org/iptv/master/streams/us_adultswim.m3u",
-    "https://raw.githubusercontent.com/iptv-org/iptv/master/streams/us_amagi.m3u",
-
-    # Pluto / MOJ
     "https://pluto.freechannels.me/playlist.m3u",
-    "https://bit.ly/moj-m3u8",
-    "https://raw.githubusercontent.com/iptv-org/iptv/master/streams/us_moveonjoy.m3u",
+    "https://iptv-org.github.io/iptv/languages/eng.m3u",
 
-    # BuddyChewChew
-    "https://raw.githubusercontent.com/BuddyChewChew/buddylive/main/buddylive_v1.m3u",
-    "https://raw.githubusercontent.com/BuddyChewChew/buddylive-combined/main/combined_playlist.m3u",
-    "https://raw.githubusercontent.com/BuddyChewChew/buddylive/main/en/videoall.m3u",
-    "https://raw.githubusercontent.com/BuddyChewChew/My-Streams/main/Backup.m3u",
-    "https://raw.githubusercontent.com/BuddyChewChew/My-Streams/main/StreamedSU.m3u8",
-    "https://raw.githubusercontent.com/BuddyChewChew/My-Streams/main/Pixelsports.m3u8",
-    "https://raw.githubusercontent.com/BuddyChewChew/iptv/main/M3U8/events.m3u8",
-
-    # Local merge (optional)
-    "merged_playlist.m3u",
+    "https://raw.githubusercontent.com/BuddyChewChew/ppv/refs/heads/main/PPVLand.m3u8",
+    "https://raw.githubusercontent.com/BuddyChewChew/My-Streams/refs/heads/main/Pixelsports.m3u8",
+    "https://raw.githubusercontent.com/BuddyChewChew/My-Streams/refs/heads/main/StreamSU.m3u",
+    "https://raw.githubusercontent.com/BuddyChewChew/My-Streams/refs/heads/main/Backup.m3u",
+    "https://raw.githubusercontent.com/BuddyChewChew/buddylive-combined/refs/heads/main/combined_playlist.m3u",
+    "https://raw.githubusercontent.com/BuddyChewChew/buddylive/refs/heads/main/en/videoall.m3u",
+    "https://raw.githubusercontent.com/BuddyChewChew/iptv/refs/heads/main/M3U8/events.m3u8",
 ]
 
-# ============================================================
-# CATEGORIES (FINAL APPROVED)
-# ============================================================
+# ==========================================================
+# CATEGORY RULES
+# ==========================================================
 
-CATEGORIES = OrderedDict({
-    "📺 Sports Networks": ["espn", "fox sports", "sportsnet", "bein", "tsn", "sky sports"],
-    "🎲 Action & Odds": ["vsin", "fanduel", "sportsgrid", "poker"],
-    "🐎 Horse Racing": ["horse", "racing", "tvg"],
-    "🏈 NFL Football": ["nfl", "redzone"],
+CATEGORIES = {
+    "🏈 NFL Football": ["nfl", "redzone", "football"],
     "🏉 NCAA Football": ["ncaaf", "college football"],
     "🏀 NBA Basketball": ["nba"],
     "🏀 NCAA Basketball": ["ncaab", "college basketball"],
     "⚾ MLB Baseball": ["mlb", "baseball"],
     "🏒 NHL Hockey": ["nhl", "hockey"],
-    "🥊 Fight Sports / PPV": ["ufc", "boxing", "mma", "wwe", "ppv"],
+    "🥊 Fight Sports / PPV": ["ufc", "boxing", "mma", "ppv", "fight"],
     "🎣 Fishing & Hunting": ["fishing", "hunting", "outdoor"],
-    "🏎️ Motorsports": ["nascar", "formula", "f1", "indycar", "motogp"],
-    "⚽ Soccer": ["soccer", "futbol", "premier", "laliga", "bundesliga", "mls"],
-    "⛳ Golf & Tennis": ["golf", "tennis", "pga", "atp", "wta"],
-    "📦 Sports Everything Else": []
-})
+    "🏎 Motorsports": ["nascar", "f1", "formula", "indycar", "motogp"],
+    "⚽ Soccer": ["soccer", "futbol", "mls", "epl", "la liga", "bundesliga"],
+    "⛳ Golf & Tennis": ["golf", "pga", "tennis", "atp", "wta"],
+    "🎲 Poker & Sports Betting": [
+        "poker", "world poker", "wpt", "triton",
+        "fanduel", "draftkings"
+    ],
+    "📺 Sports Networks": [
+        "espn", "fox sports", "cbs sports", "nbc sports",
+        "sportsnet", "bein", "sky sports"
+    ],
+}
 
-EXCLUDE_KEYWORDS = [
-    "bet ",
-    "bet+",
-    "bet her",
-    "bet soul",
-    "black entertainment"
+EXCLUDE_FALSE_BETTING = ["bet+", "bet her", "bet soul", "black entertainment"]
+
+LIVE_HINTS = [
+    " vs ", " at ", " v ", " vs.", "@",
+    "live", "kickoff", "round", "match"
 ]
 
-LIVE_HINTS = ["live", "event", "match", "vs", "fight", "game", "now"]
-
-# ============================================================
+# ==========================================================
 # HELPERS
-# ============================================================
+# ==========================================================
 
-def fetch(url):
+def fetch_m3u(url):
     try:
-        r = requests.get(url, timeout=20)
-        if r.status_code == 200 and "#EXTM3U" in r.text:
-            return r.text
+        print("Fetching:", url)
+        return requests.get(url, timeout=20).text
     except:
-        pass
-    return ""
+        return ""
 
-def clean_name(name):
-    name = re.sub(r"\s*\|\s*\d+$", "", name)
-    name = re.sub(r"\s+\d+$", "", name)
-    return name.strip()
-
-def is_numeric(name):
-    return bool(re.fullmatch(r"\d+", name))
-
-def excluded(name):
+def detect_category(name):
     lname = name.lower()
-    return any(x in lname for x in EXCLUDE_KEYWORDS)
 
-def classify(name):
-    lname = name.lower()
+    for bad in EXCLUDE_FALSE_BETTING:
+        if bad in lname:
+            return None
+
     for cat, keys in CATEGORIES.items():
-        if any(k in lname for k in keys):
-            return cat
-    return "📦 Sports Everything Else"
+        for k in keys:
+            if k in lname:
+                return cat
+    return None
 
-def is_live(name):
+def looks_live(name):
     lname = name.lower()
-    return any(x in lname for x in LIVE_HINTS)
+    return any(h in lname for h in LIVE_HINTS)
 
-# ============================================================
-# BUILD
-# ============================================================
+# ==========================================================
+# PARSE + BUILD
+# ==========================================================
 
-def build():
-    buckets = {k: [] for k in CATEGORIES}
-    seen = set()
+channels_by_category = defaultdict(list)
 
-    for src in FREE_PLAYLISTS:
-        print(f"Fetching: {src}")
-        text = fetch(src)
-        name = None
+for src in FREE_PLAYLISTS:
+    text = fetch_m3u(src)
+    lines = text.splitlines()
 
-        for line in text.splitlines():
-            if line.startswith("#EXTINF"):
-                name = line.split(",")[-1].strip()
-            elif line.startswith("http") and name:
-                cname = clean_name(name)
+    name = None
+    meta = ""
 
-                if not cname or is_numeric(cname) or excluded(cname):
-                    name = None
-                    continue
+    for line in lines:
+        if line.startswith("#EXTINF"):
+            meta = line
+            name = line.split(",")[-1].strip()
+        elif line.startswith("http") and name:
+            cat = detect_category(name)
+            if cat:
+                channels_by_category[cat].append((name, line))
+            name = None
 
-                if line in seen:
-                    name = None
-                    continue
+# ==========================================================
+# EXPORT
+# ==========================================================
 
-                seen.add(line)
-                cat = classify(cname)
-                buckets[cat].append((is_live(cname), cname, line))
-                name = None
+with open("sports_master.m3u", "w", encoding="utf-8") as f:
+    f.write("#EXTM3U\n")
 
-    return buckets
+    for cat in CATEGORIES.keys():
+        items = channels_by_category.get(cat)
+        if not items:
+            continue
 
-def export(data):
-    with open("sports_master.m3u", "w", encoding="utf-8") as f:
-        f.write("#EXTM3U\n")
-        for cat, items in data.items():
-            if not items:
-                continue
-            items.sort(key=lambda x: (not x[0], x[1].lower()))
-            for live, name, url in items:
-                f.write(f'#EXTINF:-1 group-title="{cat}",{name}\n')
-                f.write(url + "\n")
+        f.write(f'\n#EXTINF:-1 group-title="{cat}",{cat}\n')
+        f.write("http://example.com/blank\n")
 
-# ============================================================
-# RUN
-# ============================================================
+        for name, url in sorted(items):
+            f.write(f'#EXTINF:-1 group-title="{cat}",{name}\n')
+            f.write(url + "\n")
 
-if __name__ == "__main__":
-    print("Building Sports Master (full free set)…")
-    data = build()
-    export(data)
-    print("Done → sports_master.m3u")
+print("Done → sports_master.m3u generated")
