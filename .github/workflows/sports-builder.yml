@@ -1,47 +1,38 @@
 name: Build Sports Playlists Hourly
 
 on:
-  schedule:
-    - cron: "0 * * * *"   # hourly
   workflow_dispatch:
+  schedule:
+    - cron: "0 * * * *"
 
 jobs:
   build_sports:
     runs-on: ubuntu-latest
 
     steps:
-    # 1. Checkout repo
-    - name: Checkout repo
-      uses: actions/checkout@v4
-      with:
-        fetch-depth: 0   # REQUIRED so git pull/rebase works
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-    # 2. Install Python
-    - name: Install Python dependencies
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y python3 python3-pip
-        pip install requests pandas lxml
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
 
-    # 3. Run SportsMaster builder (FREE ONLY)
-    - name: Run SportsMaster builder
-      run: |
-        python3 SportsMaster.py
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests
 
-    # 4. Write readable logs
-    - name: Write channel summary logs
-      run: |
-        mkdir -p logs
+      - name: Build Sports Playlist
+        run: |
+          python SportsMaster.py
 
-        echo "===== sports_master.m3u =====" > logs/sports_master.m3u.log.txt
-        cat sports_master.m3u >> logs/sports_master.m3u.log.txt
-
-    # 5. Commit updated playlist + logs (SAFE PUSH)
-    - name: Commit updated playlists
-      uses: stefanzweifel/git-auto-commit-action@v5
-      with:
-        commit_message: "Auto-update sports playlist"
-        file_pattern: |
-          sports_master.m3u
-          logs/*.txt
-        pull_strategy: rebase
+      - name: Commit updated playlist
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Auto-update sports playlist"
+          file_pattern: sports_master.m3u
+          skip_fetch: true
+          skip_checkout: true
