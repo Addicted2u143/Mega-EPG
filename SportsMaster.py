@@ -1,13 +1,13 @@
 import requests
 
-# -----------------------------
-# PLAYLIST SOURCES (FREE ONLY)
-# -----------------------------
+# =====================================================
+# PLAYLIST SOURCES (FREE ONLY — FULL LIST)
+# =====================================================
 PLAYLISTS = [
 
-    # =====================================================
-    # CORE LIVE / PPV / EVENTS (NON-NEGOTIABLE)
-    # =====================================================
+    # -------------------------------------------------
+    # CORE LIVE / PPV / EVENTS (DO NOT TOUCH GROUPS)
+    # -------------------------------------------------
     "https://raw.githubusercontent.com/BuddyChewChew/ppv/refs/heads/main/PPVLand.m3u8",
 
     "https://raw.githubusercontent.com/BuddyChewChew/My-Streams/refs/heads/main/StreamSU.m3u",
@@ -17,16 +17,16 @@ PLAYLISTS = [
 
     "https://raw.githubusercontent.com/BuddyChewChew/iptv/refs/heads/main/M3U8/events.m3u8",
 
-    # =====================================================
-    # BUDDYCHEW LIVE ECOSYSTEM (KEEP GROUP TITLES)
-    # =====================================================
+    # -------------------------------------------------
+    # BUDDYCHEW LIVE ECOSYSTEM (KEEP ORIGINAL GROUPS)
+    # -------------------------------------------------
     "https://raw.githubusercontent.com/BuddyChewChew/buddylive-combined/refs/heads/main/combined_playlist.m3u",
     "https://raw.githubusercontent.com/BuddyChewChew/buddylive/refs/heads/main/buddylive_v1.m3u",
     "https://raw.githubusercontent.com/BuddyChewChew/buddylive/refs/heads/main/en/videoall.m3u",
 
-    # =====================================================
-    # FAST / HYBRID SOURCES (SPORTS HIDDEN INSIDE)
-    # =====================================================
+    # -------------------------------------------------
+    # FAST / HYBRID SOURCES (SPORTS HIDING INSIDE)
+    # -------------------------------------------------
 
     # Pluto
     "https://pluto.freechannels.me/playlist.m3u",
@@ -47,9 +47,9 @@ PLAYLISTS = [
     "https://raw.githubusercontent.com/BuddyChewChew/app-m3u-generator/refs/heads/main/playlists/tubi_all.m3u",
     "https://raw.githubusercontent.com/BuddyChewChew/xumo-playlist-generator/refs/heads/main/playlists/xumo_playlist.m3u",
 
-    # =====================================================
-    # APSATTV (SURPRISINGLY USEFUL FOR BACKUP SPORTS)
-    # =====================================================
+    # -------------------------------------------------
+    # APSATTV (BACKUP + EDGE SPORTS)
+    # -------------------------------------------------
     "https://www.apsattv.com/freelivesports.m3u",
     "https://www.apsattv.com/freetv.m3u",
     "https://www.apsattv.com/firetv.m3u",
@@ -57,12 +57,11 @@ PLAYLISTS = [
     "https://www.apsattv.com/galxytv.m3u",
     "https://www.apsattv.com/klowd.m3u",
     "https://www.apsattv.com/xumo.m3u",
-
 ]
 
-# -----------------------------
-# ANCHOR DEFINITIONS
-# -----------------------------
+# =====================================================
+# ANCHOR DEFINITIONS (STATIC FALLBACKS ONLY)
+# =====================================================
 ANCHORS = {
     "Football": ["nfl", "football", "ncaa"],
     "Basketball": ["nba", "basketball"],
@@ -75,9 +74,9 @@ ANCHORS = {
 
 DEFAULT_ANCHOR = "Sports - Live"
 
-# -----------------------------
+# =====================================================
 # HELPERS
-# -----------------------------
+# =====================================================
 def fetch(url):
     try:
         return requests.get(url, timeout=20).text
@@ -91,9 +90,9 @@ def find_anchor(name, group):
             return anchor
     return DEFAULT_ANCHOR
 
-# -----------------------------
-# PARSE + REWRITE
-# -----------------------------
+# =====================================================
+# PARSE + SAFE REWRITE (DYNAMIC-PRESERVING)
+# =====================================================
 output = ["#EXTM3U"]
 current = {}
 
@@ -113,14 +112,13 @@ for url in PLAYLISTS:
 
             anchor = find_anchor(current["name"], group)
 
-            # rebuild EXTINF safely
+            # ---------------------------------------------
+            # CRITICAL RULE:
+            # If a group-title already exists, DO NOT TOUCH IT
+            # ---------------------------------------------
             rebuilt = line
-            if 'group-title="' in rebuilt:
-                rebuilt = rebuilt.replace(
-                    f'group-title="{group}"',
-                    f'group-title="{anchor} | {group}"'
-                )
-            else:
+
+            if 'group-title="' not in rebuilt:
                 rebuilt = rebuilt.replace(
                     "#EXTINF:-1",
                     f'#EXTINF:-1 group-title="{anchor}"'
@@ -132,10 +130,10 @@ for url in PLAYLISTS:
             output.append(current["extinf"])
             output.append(line)
 
-# -----------------------------
+# =====================================================
 # WRITE FILE
-# -----------------------------
+# =====================================================
 with open("SportsMaster_Stable.m3u", "w", encoding="utf-8") as f:
     f.write("\n".join(output))
 
-print("DONE: SportsMaster_Stable.m3u")
+print("DONE: SportsMaster_Stable.m3u (dynamic-safe, category-stable)")
