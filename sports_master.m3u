@@ -7,8 +7,6 @@ https://gg.poocloud.in/cows/index.m3u8
 https://gg.poocloud.in/familyguy/index.m3u8
 #EXTINF:-1 group-title="Sports Networks (General)",24/7 The Simpsons - 05:28 AM ET / 03:28 AM MT / 10:28 UK
 https://gg.poocloud.in/thesimpsons/index.m3u8
-#EXTINF:-1 group-title="Sports Networks (General)",Charlotte Hornets vs. Cleveland Cavaliers - 07:00 PM ET / 05:00 PM MT / 00:00 UK
-https://gg.poocloud.in/clevelandcavaliers/index.m3u8
 #EXTINF:-1 group-title="Sports Networks (General)",St. Louis Blues vs. Tampa Bay Lightning - 07:00 PM ET / 05:00 PM MT / 00:00 UK
 https://gg.poocloud.in/tampabaylightning/index.m3u8
 #EXTINF:-1 group-title="Sports Networks (General)",Indiana Pacers vs. Boston Celtics - 07:30 PM ET / 05:30 PM MT / 00:30 UK
@@ -33,42 +31,8 @@ https://gg.poocloud.in/portlandtrailblazers/index.m3u8
 https://gg.poocloud.in/anaheimducks/index.m3u8
 #EXTINF:-1 group-title="Sports Networks (General)",Columbus Blue Jackets vs. Los Angeles Kings - 10:00 PM ET / 08:00 PM MT / 03:00 UK
 https://gg.poocloud.in/losangeleskings/index.m3u8
-#EXTINF:-1 group-title="Sports Networks (General)",World Darts Championship - 07:30 AM ET / 05:30 AM MT / 12:30 UK
-https://gg.poocloud.in/darts/index.m3u8
 #EXTINF:-1 group-title="Sports Networks (General)",Congo DR vs. Benin - 07:30 AM ET / 05:30 AM MT / 12:30 UK
 https://gg.poocloud.in/afcon/index.m3u8
-#EXTINF:-1 group-title="Sports Networks (General)",Parma vs. Fiorentina - 06:30 AM ET / 04:30 AM MT / 11:30 UK
-https://gg.poocloud.in/sa_par/index.m3u8
-#EXTINF:-1 group-title="Sports Networks (General)",Nottingham Forest vs. Manchester City - 07:30 AM ET / 05:30 AM MT / 12:30 UK
-https://gg.poocloud.in/pl_nfo/index.m3u8
-#EXTINF:-1 group-title="Sports Networks (General)",Torino vs. Cagliari - 09:00 AM ET / 07:00 AM MT / 14:00 UK
-https://gg.poocloud.in/sa_tor/index.m3u8
-#EXTINF:-1 group-title="Sports Networks (General)",Arsenal vs. Brighton & Hove Albion - 10:00 AM ET / 08:00 AM MT / 15:00 UK
-https://gg.poocloud.in/pl_ars/index.m3u8
-#EXTINF:-1 group-title="Sports Networks (General)",Burnley vs. Everton - 10:00 AM ET / 08:00 AM MT / 15:00 UK
-https://gg.poocloud.in/pl_bur/index.m3u8
-#EXTINF:-1 group-title="Sports Networks (General)",Liverpool vs. Wolverhampton Wanderers - 10:00 AM ET / 08:00 AM MT / 15:00 UK
-https://gg.poocloud.in/pl_liv/index.m3u8
-#EXTINF:-1 group-title="Sports Networks (General)",West Ham United vs. Fulham - 10:00 AM ET / 08:00 AM MT / 15:00 UK
-https://gg.poocloud.in/pl_whu/index.m3u8
-#EXTINF:-1 group-title="Sports Networks (General)",Udinese vs. Lazio - 12:00 PM ET / 10:00 AM MT / 17:00 UK
-https://gg.poocloud.in/sa_udi/index.m3u8
-#EXTINF:-1 group-title="Sports Networks (General)",Chelsea vs. Aston Villa - 12:30 PM ET / 10:30 AM MT / 17:30 UK
-https://gg.poocloud.in/pl_che/index.m3u8
-#EXTINF:-1 group-title="Sports Networks (General)",Pisa vs. Juventus - 02:45 PM ET / 12:45 PM MT / 19:45 UK
-https://gg.poocloud.in/sa_pis/index.m3u8
-#EXTINF:-1 group-title="Sports Networks (General)",Sunderland vs. Leeds United - 09:00 AM ET / 07:00 AM MT / 14:00 UK
-https://gg.poocloud.in/pl_sun/index.m3u8
-#EXTINF:-1 group-title="Sports Networks (General)",Cremonese vs. Napoli - 09:00 AM ET / 07:00 AM MT / 14:00 UK
-https://gg.poocloud.in/sa_cre/index.m3u8
-#EXTINF:-1 group-title="Sports Networks (General)",Crystal Palace vs. Tottenham Hotspur - 11:30 AM ET / 09:30 AM MT / 16:30 UK
-https://gg.poocloud.in/pl_cry/index.m3u8
-#EXTINF:-1 group-title="Sports Networks (General)",Bologna vs. Sassuolo - 12:00 PM ET / 10:00 AM MT / 17:00 UK
-https://gg.poocloud.in/sa_bol/index.m3u8
-#EXTINF:-1 group-title="Sports Networks (General)",Atalanta vs. Internazionale - 02:45 PM ET / 12:45 PM MT / 19:45 UK
-https://gg.poocloud.in/sa_ata/index.m3u8
-#EXTINF:-1 group-title="Fight Sports / PPV",UFC 324: Gaethje vs. Pimblett - 07:00 PM ET / 05:00 PM MT / 00:00 UK
-https://gg.poocloud.in/ufc/index.m3u8
 #EXTINF:-1 group-title="Sports Networks (General)",Oklahoma vs Stetson
 https://lb8.strmd.top/secure/iJBlyCaRzTLTXFOQlmhVrCvRePHyxwpZ/delta/stream/live_ncaa_oklahoma-stetson-live-streaming-426832416/1/playlist.m3u8
 #EXTINF:-1 group-title="Sports Networks (General)",Golden State Warriors vs Orlando Magic
@@ -89,110 +53,112 @@ https://lb6.strmd.top/secure/zqtzMfDpSpdyagvpXUAErVUZfkjOORlx/delta/stream/live_
 https://lb5.strmd.top/secure/EjuoALGFEiTzUtjNyZayLTEOZytoTURL/delta/stream/live_ncaa_wisconsin-central-michigan-live-streaming-459971136/1/playlist.m3u8
 #EXTINF:-1 group-title="Sports Networks (General)",Brigham Young Cougars vs Eastern Washington Eagles
 https://lb3.strmd.top/secure/qAKLwjsURnXBzOUGmxwDPEXiQjaRQksg/delta/stream/live_ncaa_byu-eastern-washington-live-streaming-459971568/1/playlist.m3u8
+#EXTINF:-1 group-title="Sports Networks (General)",Cleveland Cavaliers vs Charlotte Hornets
+https://gg.poocloud.in/clevelandcavaliers/index.m3u8
 #EXTINF:-1 group-title="Sports Networks (General)",LSU vs Prairie View A and M
 https://lb5.strmd.top/secure/MrapHdaMrFwDNPqTsmVmIdTWZZDMpUKd/delta/stream/live_ncaa_lsu-prairie-view-am-live-streaming-459965952/1/playlist.m3u8
 #EXTINF:-1 group-title="Sports Networks (General)",Texas Longhorns vs Maryland Eastern Shore Hawks
 https://lb2.strmd.top/secure/AiMKAiVtIYuHFgMXumfZTFUTCBJDxIya/delta/stream/live_ncaa_texas-maryland-eastern-live-streaming-459970704/1/playlist.m3u8
 #EXTINF:-1 group-title="Football",NFL NetWork 24/7 
 https://lb9.strmd.top/secure/LGgJNryCdzhhyJlyHqSrDqmSOoRohIOt/echo/stream/nfl-network-247-nfl-2025-516518/1/playlist.m3u8
-#EXTINF:-1 group-title="Sports Networks (General)",Utah Jazz at Denver Nuggets
-https://dash.pixelstreams.online:443/play/pAVJjXWDXadNqa4ml_eoyAv6HWYqIv7sj55qRLkZbtg/.m3u8
-#EXTINF:-1 group-title="Sports Networks (General)",Utah Jazz at Denver Nuggets
-https://dash.pixelstreams.online:443/play/pAVJjXWDXadNqa4ml_eoyGgxlwEzz_b0TeUakZbz9rg/.m3u8
-#EXTINF:-1 group-title="Sports Networks (General)",Indiana Pacers at Boston Celtics
-https://dash.pixelstreams.online:443/play/pAVJjXWDXadNqa4ml_eoyDeS8chYdz26SvdVwTViejc/.m3u8
-#EXTINF:-1 group-title="Sports Networks (General)",Indiana Pacers at Boston Celtics
-https://dash.pixelstreams.online:443/play/pAVJjXWDXadNqa4ml_eoyO0DTcy5M84IujR5eZVK3jA/.m3u8
-#EXTINF:-1 group-title="Sports Networks (General)",Orlando Magic at Golden State Warriors
-https://dash.pixelstreams.online:443/play/pAVJjXWDXadNqa4ml_eoyH-5y4hr0vfnPAfvifM-8PY/.m3u8
-#EXTINF:-1 group-title="Sports Networks (General)",Orlando Magic at Golden State Warriors
-https://dash.pixelstreams.online:443/play/pAVJjXWDXadNqa4ml_eoyCqjnKl2dkGEZ6XPEpPSsw8/.m3u8
-#EXTINF:-1 group-title="Sports Networks (General)",Chicago White Sox at Chicago Cubs
-https://locked.pixelpanel.online/hdstream/embed/617.m3u8
-#EXTINF:-1 group-title="Sports Networks (General)",Chicago White Sox at Chicago Cubs
-https://locked.pixelpanel.online/hdstream/embed/561.m3u8
-#EXTINF:-1 group-title="Sports Networks (General)",Pittsburgh Steelers at Detroit Lions
-https://dash.pixelstreams.online:443/play/pAVJjXWDXadNqa4ml_eoyF7PFpPXybxvtF4mjJt6lPg/.m3u8
-#EXTINF:-1 group-title="Sports Networks (General)",San Diego Padres at Seattle Mariners
-https://locked.pixelpanel.online/hdstream/embed/417.m3u8
-#EXTINF:-1 group-title="Sports Networks (General)",San Diego Padres at Seattle Mariners
-https://locked.pixelpanel.online/hdstream/embed/433.m3u8
-#EXTINF:-1 group-title="Sports Networks (General)",New York Yankees at Baltimore Orioles
-https://locked.pixelpanel.online/hdstream/embed/349.m3u8
-#EXTINF:-1 group-title="Sports Networks (General)",New York Yankees at Baltimore Orioles
-https://locked.pixelpanel.online/hdstream/embed/420.m3u8
-#EXTINF:-1 group-title="Sports Networks (General)",Los Angeles Chargers at Dallas Cowboys
-https://dash.pixelstreams.online:443/play/pAVJjXWDXadNqa4ml_eoyJfY8jfqsXT8J-B5BQfSRGk/.m3u8
-#EXTINF:-1 group-title="Sports Networks (General)",Kansas City Royals at Texas Rangers
-https://locked.pixelpanel.online/hdstream/embed/426.m3u8
-#EXTINF:-1 group-title="Sports Networks (General)",Kansas City Royals at Texas Rangers
-https://locked.pixelpanel.online/hdstream/embed/165.m3u8
-#EXTINF:-1 group-title="Sports Networks (General)",San Francisco 49ers at Indianapolis Colts
-https://dash.pixelstreams.online:443/play/pAVJjXWDXadNqa4ml_eoyMP-Fdi701raF1uooXyWD6c/.m3u8
-#EXTINF:-1 group-title="Sports Networks (General)",Dallas Mavericks at New Orleans Pelicans
-https://dash.pixelstreams.online:443/play/pAVJjXWDXadNqa4ml_eoyB3jto0TcY1gzO8KLWgAMgQ/.m3u8
-#EXTINF:-1 group-title="Sports Networks (General)",Dallas Mavericks at New Orleans Pelicans
-https://dash.pixelstreams.online:443/play/pAVJjXWDXadNqa4ml_eoyBz5O6GAB7q5MEdGpyy-upQ/.m3u8
 #EXTINF:-1 group-title="Sports Networks (General)",Charlotte Hornets at Cleveland Cavaliers
 https://dash.pixelstreams.online:443/play/pAVJjXWDXadNqa4ml_eoyI0GxCvocLRBeC7LQUnUIEw/.m3u8
 #EXTINF:-1 group-title="Sports Networks (General)",Charlotte Hornets at Cleveland Cavaliers
 https://dash.pixelstreams.online:443/play/pAVJjXWDXadNqa4ml_eoyGPRPJmcn-bDfkVSsZgWWxo/.m3u8
-#EXTINF:-1 group-title="Sports Networks (General)",Green Bay Packers at Chicago Bears
-https://dash.pixelstreams.online:443/play/pAVJjXWDXadNqa4ml_eoyMQ76E_1pUfyJRL9QrkIK44/.m3u8
-#EXTINF:-1 group-title="Fight Sports / PPV",Philadelphia Eagles at Washington Commanders
-https://dash.pixelstreams.online:443/play/pAVJjXWDXadNqa4ml_eoyEL4rXgqzPwzdoy1YV3rJN0/.m3u8
-#EXTINF:-1 group-title="Sports Networks (General)",Tampa Bay Buccaneers at Carolina Panthers
-https://dash.pixelstreams.online:443/play/pAVJjXWDXadNqa4ml_eoyBENjmbIcIC6HL_TF5yx8sM/.m3u8
-#EXTINF:-1 group-title="Sports Networks (General)",Las Vegas Raiders at Houston Texans
-https://dash.pixelstreams.online:443/play/pAVJjXWDXadNqa4ml_eoyINBLjFUgy_v_2-Xq8WsUXU/.m3u8
+#EXTINF:-1 group-title="Sports Networks (General)",New York Yankees at Baltimore Orioles
+https://locked.pixelpanel.online/hdstream/embed/349.m3u8
+#EXTINF:-1 group-title="Sports Networks (General)",New York Yankees at Baltimore Orioles
+https://locked.pixelpanel.online/hdstream/embed/420.m3u8
+#EXTINF:-1 group-title="Sports Networks (General)",Dallas Mavericks at New Orleans Pelicans
+https://dash.pixelstreams.online:443/play/pAVJjXWDXadNqa4ml_eoyB3jto0TcY1gzO8KLWgAMgQ/.m3u8
+#EXTINF:-1 group-title="Sports Networks (General)",Dallas Mavericks at New Orleans Pelicans
+https://dash.pixelstreams.online:443/play/pAVJjXWDXadNqa4ml_eoyBz5O6GAB7q5MEdGpyy-upQ/.m3u8
+#EXTINF:-1 group-title="Sports Networks (General)",Vancouver Canucks at Philadelphia Flyers
+https://dash.pixelstreams.online:443/play/pAVJjXWDXadNqa4ml_eoyF2IRSLpKuceqeLAtDBXqx8/.m3u8
+#EXTINF:-1 group-title="Sports Networks (General)",Vancouver Canucks at Philadelphia Flyers
+https://dash.pixelstreams.online:443/play/pAVJjXWDXadNqa4ml_eoyEJrJFF4t2841N8lofM-x7U/.m3u8
 #EXTINF:-1 group-title="Sports Networks (General)",Cincinnati Bengals at Miami Dolphins
 https://dash.pixelstreams.online:443/play/pAVJjXWDXadNqa4ml_eoyFEDzC5gjOhisYj1J9IABMY/.m3u8
 #EXTINF:-1 group-title="Sports Networks (General)",St. Louis Blues at Tampa Bay Lightning
 https://dash.pixelstreams.online:443/play/pAVJjXWDXadNqa4ml_eoyI7fUj8x3OBiOVSIyfFn6Pk/.m3u8
 #EXTINF:-1 group-title="Sports Networks (General)",St. Louis Blues at Tampa Bay Lightning
 https://dash.pixelstreams.online:443/play/pAVJjXWDXadNqa4ml_eoyJhlpAnAh2kCbmNfaaQWOKk/.m3u8
-#EXTINF:-1 group-title="Sports Networks (General)",New England Patriots at Baltimore Ravens
-https://dash.pixelstreams.online:443/play/pAVJjXWDXadNqa4ml_eoyMWuIl_nX7OMlGEioWs0OQ4/.m3u8
+#EXTINF:-1 group-title="Sports Networks (General)",New York Jets at New Orleans Saints
+https://dash.pixelstreams.online:443/play/pAVJjXWDXadNqa4ml_eoyMEGGgOZPuL8vDZnAFRgMio/.m3u8
+#EXTINF:-1 group-title="Sports Networks (General)",Minnesota Vikings at New York Giants
+https://dash.pixelstreams.online:443/play/pAVJjXWDXadNqa4ml_eoyIEhHm_jUkeQaZ48x2G2a50/.m3u8
+#EXTINF:-1 group-title="Sports Networks (General)",San Diego Padres at Seattle Mariners
+https://locked.pixelpanel.online/hdstream/embed/417.m3u8
+#EXTINF:-1 group-title="Sports Networks (General)",San Diego Padres at Seattle Mariners
+https://locked.pixelpanel.online/hdstream/embed/433.m3u8
+#EXTINF:-1 group-title="Sports Networks (General)",Atlanta Falcons at Arizona Cardinals
+https://dash.pixelstreams.online:443/play/pAVJjXWDXadNqa4ml_eoyFQZoubp5VK9vu5J-N3PMQk/.m3u8
+#EXTINF:-1 group-title="Sports Networks (General)",San Francisco 49ers at Indianapolis Colts
+https://dash.pixelstreams.online:443/play/pAVJjXWDXadNqa4ml_eoyMP-Fdi701raF1uooXyWD6c/.m3u8
 #EXTINF:-1 group-title="Sports Networks (General)",Columbus Blue Jackets at Los Angeles Kings
 https://dash.pixelstreams.online:443/play/pAVJjXWDXadNqa4ml_eoyCzDFqthzQdOUPyVoF1Raxo/.m3u8
 #EXTINF:-1 group-title="Sports Networks (General)",Columbus Blue Jackets at Los Angeles Kings
 https://dash.pixelstreams.online:443/play/pAVJjXWDXadNqa4ml_eoyCR4V4WyzxQOvFy1hR_ojR0/.m3u8
 #EXTINF:-1 group-title="Sports Networks (General)",Buffalo Bills at Cleveland Browns
 https://dash.pixelstreams.online:443/play/pAVJjXWDXadNqa4ml_eoyEItvzNP-r3hAnup2XNBhE8/.m3u8
-#EXTINF:-1 group-title="Sports Networks (General)",Seattle Kraken at Anaheim Ducks
-https://dash.pixelstreams.online:443/play/pAVJjXWDXadNqa4ml_eoyF3wk-1sPQUfC2uib-R5TyE/.m3u8
-#EXTINF:-1 group-title="Sports Networks (General)",Seattle Kraken at Anaheim Ducks
-https://dash.pixelstreams.online:443/play/pAVJjXWDXadNqa4ml_eoyJ0YU2SrJ8VmOcvmMOsI92I/.m3u8
-#EXTINF:-1 group-title="Sports Networks (General)",Atlanta Falcons at Arizona Cardinals
-https://dash.pixelstreams.online:443/play/pAVJjXWDXadNqa4ml_eoyFQZoubp5VK9vu5J-N3PMQk/.m3u8
-#EXTINF:-1 group-title="Sports Networks (General)",Vancouver Canucks at Philadelphia Flyers
-https://dash.pixelstreams.online:443/play/pAVJjXWDXadNqa4ml_eoyF2IRSLpKuceqeLAtDBXqx8/.m3u8
-#EXTINF:-1 group-title="Sports Networks (General)",Vancouver Canucks at Philadelphia Flyers
-https://dash.pixelstreams.online:443/play/pAVJjXWDXadNqa4ml_eoyEJrJFF4t2841N8lofM-x7U/.m3u8
-#EXTINF:-1 group-title="Sports Networks (General)",New York Jets at New Orleans Saints
-https://dash.pixelstreams.online:443/play/pAVJjXWDXadNqa4ml_eoyMEGGgOZPuL8vDZnAFRgMio/.m3u8
-#EXTINF:-1 group-title="Sports Networks (General)",Jacksonville Jaguars at Denver Broncos
-https://dash.pixelstreams.online:443/play/pAVJjXWDXadNqa4ml_eoyLh7OHT6jfKMb4N_AtQEH8w/.m3u8
-#EXTINF:-1 group-title="Sports Networks (General)",Arizona Diamondbacks at Colorado Rockies
-https://locked.pixelpanel.online/hdstream/embed/427.m3u8
-#EXTINF:-1 group-title="Sports Networks (General)",Arizona Diamondbacks at Colorado Rockies
-https://locked.pixelpanel.online/hdstream/embed/162.m3u8
-#EXTINF:-1 group-title="Sports Networks (General)",Kansas City Chiefs at Tennessee Titans
-https://dash.pixelstreams.online:443/play/pAVJjXWDXadNqa4ml_eoyAYHhKlNx9pVhATcrfAtomg/.m3u8
-#EXTINF:-1 group-title="Sports Networks (General)",Minnesota Vikings at New York Giants
-https://dash.pixelstreams.online:443/play/pAVJjXWDXadNqa4ml_eoyIEhHm_jUkeQaZ48x2G2a50/.m3u8
 #EXTINF:-1 group-title="Sports Networks (General)",Memphis Grizzlies at Oklahoma City Thunder
 https://dash.pixelstreams.online:443/play/pAVJjXWDXadNqa4ml_eoyERm9A0YiBoaNWcA14Rag-A/.m3u8
 #EXTINF:-1 group-title="Sports Networks (General)",Memphis Grizzlies at Oklahoma City Thunder
 https://dash.pixelstreams.online:443/play/pAVJjXWDXadNqa4ml_eoyPrA8h3tf16FYnjvZSdMZ0o/.m3u8
+#EXTINF:-1 group-title="Fight Sports / PPV",Philadelphia Eagles at Washington Commanders
+https://dash.pixelstreams.online:443/play/pAVJjXWDXadNqa4ml_eoyEL4rXgqzPwzdoy1YV3rJN0/.m3u8
 #EXTINF:-1 group-title="Sports Networks (General)",Detroit Pistons at Portland Trail Blazers
 https://dash.pixelstreams.online:443/play/pAVJjXWDXadNqa4ml_eoyFDCPpbf6zeaBRDVlsLwwKU/.m3u8
 #EXTINF:-1 group-title="Sports Networks (General)",Detroit Pistons at Portland Trail Blazers
 https://dash.pixelstreams.online:443/play/pAVJjXWDXadNqa4ml_eoyN-PtlKOYJExdM5rvXkDUVY/.m3u8
+#EXTINF:-1 group-title="Sports Networks (General)",Kansas City Chiefs at Tennessee Titans
+https://dash.pixelstreams.online:443/play/pAVJjXWDXadNqa4ml_eoyAYHhKlNx9pVhATcrfAtomg/.m3u8
+#EXTINF:-1 group-title="Sports Networks (General)",Green Bay Packers at Chicago Bears
+https://dash.pixelstreams.online:443/play/pAVJjXWDXadNqa4ml_eoyMQ76E_1pUfyJRL9QrkIK44/.m3u8
+#EXTINF:-1 group-title="Sports Networks (General)",Orlando Magic at Golden State Warriors
+https://dash.pixelstreams.online:443/play/pAVJjXWDXadNqa4ml_eoyH-5y4hr0vfnPAfvifM-8PY/.m3u8
+#EXTINF:-1 group-title="Sports Networks (General)",Orlando Magic at Golden State Warriors
+https://dash.pixelstreams.online:443/play/pAVJjXWDXadNqa4ml_eoyCqjnKl2dkGEZ6XPEpPSsw8/.m3u8
+#EXTINF:-1 group-title="Sports Networks (General)",Arizona Diamondbacks at Colorado Rockies
+https://locked.pixelpanel.online/hdstream/embed/427.m3u8
+#EXTINF:-1 group-title="Sports Networks (General)",Arizona Diamondbacks at Colorado Rockies
+https://locked.pixelpanel.online/hdstream/embed/162.m3u8
+#EXTINF:-1 group-title="Sports Networks (General)",Tampa Bay Buccaneers at Carolina Panthers
+https://dash.pixelstreams.online:443/play/pAVJjXWDXadNqa4ml_eoyBENjmbIcIC6HL_TF5yx8sM/.m3u8
+#EXTINF:-1 group-title="Sports Networks (General)",New England Patriots at Baltimore Ravens
+https://dash.pixelstreams.online:443/play/pAVJjXWDXadNqa4ml_eoyMWuIl_nX7OMlGEioWs0OQ4/.m3u8
+#EXTINF:-1 group-title="Sports Networks (General)",Pittsburgh Steelers at Detroit Lions
+https://dash.pixelstreams.online:443/play/pAVJjXWDXadNqa4ml_eoyF7PFpPXybxvtF4mjJt6lPg/.m3u8
+#EXTINF:-1 group-title="Sports Networks (General)",Jacksonville Jaguars at Denver Broncos
+https://dash.pixelstreams.online:443/play/pAVJjXWDXadNqa4ml_eoyLh7OHT6jfKMb4N_AtQEH8w/.m3u8
+#EXTINF:-1 group-title="Sports Networks (General)",Seattle Kraken at Anaheim Ducks
+https://dash.pixelstreams.online:443/play/pAVJjXWDXadNqa4ml_eoyF3wk-1sPQUfC2uib-R5TyE/.m3u8
+#EXTINF:-1 group-title="Sports Networks (General)",Seattle Kraken at Anaheim Ducks
+https://dash.pixelstreams.online:443/play/pAVJjXWDXadNqa4ml_eoyJ0YU2SrJ8VmOcvmMOsI92I/.m3u8
+#EXTINF:-1 group-title="Sports Networks (General)",Los Angeles Chargers at Dallas Cowboys
+https://dash.pixelstreams.online:443/play/pAVJjXWDXadNqa4ml_eoyJfY8jfqsXT8J-B5BQfSRGk/.m3u8
+#EXTINF:-1 group-title="Sports Networks (General)",Indiana Pacers at Boston Celtics
+https://dash.pixelstreams.online:443/play/pAVJjXWDXadNqa4ml_eoyDeS8chYdz26SvdVwTViejc/.m3u8
+#EXTINF:-1 group-title="Sports Networks (General)",Indiana Pacers at Boston Celtics
+https://dash.pixelstreams.online:443/play/pAVJjXWDXadNqa4ml_eoyO0DTcy5M84IujR5eZVK3jA/.m3u8
 #EXTINF:-1 group-title="Sports Networks (General)",Los Angeles Rams at Seattle Seahawks
 https://dash.pixelstreams.online:443/play/pAVJjXWDXadNqa4ml_eoyJA9o24sh4UZTJb2x26_apg/.m3u8
 #EXTINF:-1 group-title="Sports Networks (General)",Los Angeles Rams at Seattle Seahawks
 https://dash.pixelstreams.online:443/play/pAVJjXWDXadNqa4ml_eoyCnhUz2FjK58d-mhYtT4qpY/.m3u8
+#EXTINF:-1 group-title="Sports Networks (General)",Utah Jazz at Denver Nuggets
+https://dash.pixelstreams.online:443/play/pAVJjXWDXadNqa4ml_eoyAv6HWYqIv7sj55qRLkZbtg/.m3u8
+#EXTINF:-1 group-title="Sports Networks (General)",Utah Jazz at Denver Nuggets
+https://dash.pixelstreams.online:443/play/pAVJjXWDXadNqa4ml_eoyGgxlwEzz_b0TeUakZbz9rg/.m3u8
+#EXTINF:-1 group-title="Sports Networks (General)",Chicago White Sox at Chicago Cubs
+https://locked.pixelpanel.online/hdstream/embed/617.m3u8
+#EXTINF:-1 group-title="Sports Networks (General)",Chicago White Sox at Chicago Cubs
+https://locked.pixelpanel.online/hdstream/embed/561.m3u8
+#EXTINF:-1 group-title="Sports Networks (General)",Las Vegas Raiders at Houston Texans
+https://dash.pixelstreams.online:443/play/pAVJjXWDXadNqa4ml_eoyINBLjFUgy_v_2-Xq8WsUXU/.m3u8
+#EXTINF:-1 group-title="Sports Networks (General)",Kansas City Royals at Texas Rangers
+https://locked.pixelpanel.online/hdstream/embed/426.m3u8
+#EXTINF:-1 group-title="Sports Networks (General)",Kansas City Royals at Texas Rangers
+https://locked.pixelpanel.online/hdstream/embed/165.m3u8
 #EXTINF:-1 group-title="Football",NFL NETWORK
 https://dash.pixelstreams.online:443/play/pAVJjXWDXadNqa4ml_eoyPYisdMY6FKYSoL0-SG5N-Q/.m3u8
 #EXTINF:-1 group-title="Basketball",NBA TV
