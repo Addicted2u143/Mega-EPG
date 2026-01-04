@@ -9,12 +9,6 @@ https://gg.poocloud.in/familyguy/index.m3u8
 https://gg.poocloud.in/thesimpsons/index.m3u8
 #EXTINF:-1 group-title="Sports Networks (General)",Australia vs. England - 06:30 PM ET / 04:30 PM MT / 23:30 UK
 https://gg.poocloud.in/ashes/index.m3u8
-#EXTINF:-1 group-title="Sports Networks (General)",Utah Jazz vs. Golden State Warriors - 10:00 PM ET / 08:00 PM MT / 03:00 UK
-https://gg.poocloud.in/goldenstatewarriors/index.m3u8
-#EXTINF:-1 group-title="Sports Networks (General)",Boston Bruins vs. Vancouver Canucks - 10:00 PM ET / 08:00 PM MT / 03:00 UK
-https://gg.poocloud.in/vancouvercanucks/index.m3u8
-#EXTINF:-1 group-title="Sports Networks (General)",Boston Celtics vs. LA Clippers - 10:30 PM ET / 08:30 PM MT / 03:30 UK
-https://gg.poocloud.in/laclippers/index.m3u8
 #EXTINF:-1 group-title="Sports Networks (General)",Lazio vs. Napoli - 06:30 AM ET / 04:30 AM MT / 11:30 UK
 https://gg.poocloud.in/sa_laz/index.m3u8
 #EXTINF:-1 group-title="Sports Networks (General)",Leeds United vs. Manchester United - 07:30 AM ET / 05:30 AM MT / 12:30 UK
@@ -33,6 +27,8 @@ https://gg.poocloud.in/pl_ful/index.m3u8
 https://gg.poocloud.in/pl_new/index.m3u8
 #EXTINF:-1 group-title="Sports Networks (General)",Tottenham Hotspur vs. Sunderland - 10:00 AM ET / 08:00 AM MT / 15:00 UK
 https://gg.poocloud.in/pl_tot/index.m3u8
+#EXTINF:-1 group-title="Poker & Sports Betting",Real Madrid vs. Real Betis - 10:15 AM ET / 08:15 AM MT / 15:15 UK
+https://gg.poocloud.in/ll_rma/index.m3u8
 #EXTINF:-1 group-title="Sports Networks (General)",Morocco vs. Tanzania - 11:00 AM ET / 09:00 AM MT / 16:00 UK
 https://gg.poocloud.in/afcon/index.m3u8
 #EXTINF:-1 group-title="Sports Networks (General)",Brest vs. AJ Auxerre - 11:15 AM ET / 09:15 AM MT / 16:15 UK
@@ -45,22 +41,80 @@ https://gg.poocloud.in/sa_ver/index.m3u8
 https://gg.poocloud.in/ll_ala/index.m3u8
 #EXTINF:-1 group-title="Sports Networks (General)",Mallorca vs. Girona - 12:30 PM ET / 10:30 AM MT / 17:30 UK
 https://gg.poocloud.in/ll_mll/index.m3u8
+#EXTINF:-1 group-title="Sports Networks (General)",Manchester City vs. Chelsea - 12:30 PM ET / 10:30 AM MT / 17:30 UK
+https://gg.poocloud.in/pl_mnc/index.m3u8
+#EXTINF:-1 group-title="Sports Networks (General)",Cleveland Browns vs. Cincinnati Bengals - 01:00 PM ET / 11:00 AM MT / 18:00 UK
+https://gg.poocloud.in/cincinnatibengals/index.m3u8
+#EXTINF:-1 group-title="Sports Networks (General)",Green Bay Packers vs. Minnesota Vikings - 01:00 PM ET / 11:00 AM MT / 18:00 UK
+https://gg.poocloud.in/minnesotavikings/index.m3u8
+#EXTINF:-1 group-title="Sports Networks (General)",Dallas Cowboys vs. New York Giants - 01:00 PM ET / 11:00 AM MT / 18:00 UK
+https://gg.poocloud.in/newyorkgiants/index.m3u8
+#EXTINF:-1 group-title="Sports Networks (General)",Indianapolis Colts vs. Houston Texans - 01:00 PM ET / 11:00 AM MT / 18:00 UK
+https://gg.poocloud.in/houstontexans/index.m3u8
+#EXTINF:-1 group-title="Sports Networks (General)",Detroit Pistons vs. Cleveland Cavaliers - 02:00 PM ET / 12:00 PM MT / 19:00 UK
+https://gg.poocloud.in/clevelandcavaliers/index.m3u8
+#EXTINF:-1 group-title="Sports Networks (General)",Montreal Canadiens vs. Dallas Stars - 02:00 PM ET / 12:00 PM MT / 19:00 UK
+https://gg.poocloud.in/dallasstars/index.m3u8
+#EXTINF:-1 group-title="Sports Networks (General)",Paris Saint-Germain vs. Paris FC - 02:45 PM ET / 12:45 PM MT / 19:45 UK
+https://gg.poocloud.in/l1_psg/index.m3u8
+#EXTINF:-1 group-title="Sports Networks (General)",Indiana Pacers vs. Orlando Magic - 03:00 PM ET / 01:00 PM MT / 20:00 UK
+https://gg.poocloud.in/orlandomagic/index.m3u8
+#EXTINF:-1 group-title="Sports Networks (General)",Real Sociedad vs. Atlético Madrid - 03:00 PM ET / 01:00 PM MT / 20:00 UK
+https://gg.poocloud.in/ll_rso/index.m3u8
+#EXTINF:-1 group-title="Sports Networks (General)",Pittsburgh Penguins vs. Columbus Blue Jackets - 03:00 PM ET / 01:00 PM MT / 20:00 UK
+https://gg.poocloud.in/columbusbluejackets/index.m3u8
+#EXTINF:-1 group-title="Sports Networks (General)",New York Jets vs. Buffalo Bills - 04:25 PM ET / 02:25 PM MT / 21:25 UK
+https://gg.poocloud.in/buffalobills/index.m3u8
+#EXTINF:-1 group-title="Sports Networks (General)",Detroit Lions vs. Chicago Bears - 04:25 PM ET / 02:25 PM MT / 21:25 UK
+https://gg.poocloud.in/chicagobears/index.m3u8
+#EXTINF:-1 group-title="Sports Networks (General)",Los Angeles Chargers vs. Denver Broncos - 04:25 PM ET / 02:25 PM MT / 21:25 UK
+https://gg.poocloud.in/denverbroncos/index.m3u8
+#EXTINF:-1 group-title="Sports Networks (General)",Arizona Cardinals vs. Los Angeles Rams - 04:25 PM ET / 02:25 PM MT / 21:25 UK
+https://gg.poocloud.in/losangelesrams/index.m3u8
+#EXTINF:-1 group-title="Sports Networks (General)",Miami Dolphins vs. New England Patriots - 04:25 PM ET / 02:25 PM MT / 21:25 UK
+https://gg.poocloud.in/newenglandpatriots/index.m3u8
+#EXTINF:-1 group-title="Fight Sports / PPV",Washington Commanders vs. Philadelphia Eagles - 04:25 PM ET / 02:25 PM MT / 21:25 UK
+https://gg.poocloud.in/philadelphiaeagles/index.m3u8
+#EXTINF:-1 group-title="Sports Networks (General)",Sweden vs. Finland - 04:30 PM ET / 02:30 PM MT / 21:30 UK
+https://gg.poocloud.in/wjc_swe/index.m3u8
+#EXTINF:-1 group-title="Sports Networks (General)",New Orleans Pelicans vs. Miami Heat - 06:00 PM ET / 04:00 PM MT / 23:00 UK
+https://gg.poocloud.in/miamiheat/index.m3u8
+#EXTINF:-1 group-title="Sports Networks (General)",Minnesota Timberwolves vs. Washington Wizards - 06:00 PM ET / 04:00 PM MT / 23:00 UK
+https://gg.poocloud.in/washingtonwizards/index.m3u8
+#EXTINF:-1 group-title="Sports Networks (General)",Carolina Hurricanes vs. New Jersey Devils - 07:00 PM ET / 05:00 PM MT / 00:00 UK
+https://gg.poocloud.in/newjerseydevils/index.m3u8
+#EXTINF:-1 group-title="Sports Networks (General)",Vegas Golden Knights vs. Chicago Blackhawks - 07:00 PM ET / 05:00 PM MT / 00:00 UK
+https://gg.poocloud.in/chicagoblackhawks/index.m3u8
+#EXTINF:-1 group-title="Sports Networks (General)",Baltimore Ravens vs. Pittsburgh Steelers - 08:20 PM ET / 06:20 PM MT / 01:20 UK
+https://gg.poocloud.in/pittsburghsteelers/index.m3u8
+#EXTINF:-1 group-title="Sports Networks (General)",Canada vs. Czech Republic - 08:30 PM ET / 06:30 PM MT / 01:30 UK
+https://gg.poocloud.in/wjc_can/index.m3u8
+#EXTINF:-1 group-title="Sports Networks (General)",Milwaukee Bucks vs. Sacramento Kings - 09:00 PM ET / 07:00 PM MT / 02:00 UK
+https://gg.poocloud.in/sacramentokings/index.m3u8
+#EXTINF:-1 group-title="Sports Networks (General)",Memphis Grizzlies vs. Los Angeles Lakers - 09:30 PM ET / 07:30 PM MT / 02:30 UK
+https://gg.poocloud.in/losangeleslakers/index.m3u8
+#EXTINF:-1 group-title="Fight Sports / PPV",UFC 324: Gaethje vs. Pimblett - 07:00 PM ET / 05:00 PM MT / 00:00 UK
+https://gg.poocloud.in/ufc/index.m3u8
+#EXTINF:-1 group-title="Sports Networks (General)",A-League Women: Melbourne City W vs Sydney FC W
+https://lb8.strmd.top/secure/RCUiKapjfehLclztOlWVbGDFiIHeRxtd/charlie/stream/melbourne-city-w-vs-sydney-fc-w-1484524/1/playlist.m3u8
+#EXTINF:-1 group-title="Sports Networks (General)",A-League Women: Adelaide United W vs Central Coast Mariners W
+https://lb6.strmd.top/secure/WjhZEEEcJolNNcJYepFfdvdqKjXCHKCI/charlie/stream/adelaide-united-w-vs-central-coast-mariners-w-1484523/1/playlist.m3u8
 #EXTINF:-1 group-title="Sports Networks (General)",Northern Brave vs Otago Volts
-https://lb2.strmd.top/secure/STsJDTociRNneaWzGwVGVWidryJChvAG/charlie/stream/northern-brave-vs-otago-volts-1629472948/1/playlist.m3u8
+https://lb6.strmd.top/secure/xGSySqijYglZAUkNatKdSrhXQMZfQMeT/charlie/stream/northern-brave-vs-otago-volts-1629472948/1/playlist.m3u8
 #EXTINF:-1 group-title="Sports Networks (General)",Adelaide Giants vs Sydney Blue Sox
-https://lb3.strmd.top/secure/YuoqDOilkPacNSAnZjvRIXPsWtHsNTsE/charlie/stream/adelaide-giants-vs-sydney-blue-sox-1629472947/1/playlist.m3u8
-#EXTINF:-1 group-title="Sports Networks (General)",San Diego State vs Boise State
-https://lb2.strmd.top/secure/FFFRsphQyTezZXvkrABXCslcwZzjTeyr/delta/stream/live_ncaa_san-diego-st-boise-state-live-streaming-460485648/1/playlist.m3u8
-#EXTINF:-1 group-title="Sports Networks (General)",Brisbane International: Pat Rafter Arena: Day 1
-https://lb10.strmd.top/secure/YUIzJCQiMVvvDvjpVmKPKuSdbDCuUdqN/charlie/stream/pat-rafter-arena-day-1-1629472940/1/playlist.m3u8
+https://lb2.strmd.top/secure/sJRarNUJmecGvteeSbMqCthRoyKzoTPc/charlie/stream/adelaide-giants-vs-sydney-blue-sox-1629472947/1/playlist.m3u8
+#EXTINF:-1 group-title="Sports Networks (General)",Los Angeles Clippers vs Boston Celtics
+https://lb5.strmd.top/secure/DzEQafkwcwDQwzJXrfLciPFsDrCLEYpk/charlie/stream/boston-celtics-vs-los-angeles-clippers-1629472946/1/playlist.m3u8
+#EXTINF:-1 group-title="Sports Networks (General)",Vancouver Canucks vs Boston Bruins
+https://lb7.strmd.top/secure/CDVoTWFpdEdMvpdjzwSTzDADcEtvbdDc/charlie/stream/boston-bruins-vs-vancouver-canucks-1629472945/1/playlist.m3u8
 #EXTINF:-1 group-title="Sports Networks (General)",Amanda Serrano vs Reina Tellez
-https://lb9.strmd.top/secure/YDBwHybzdfrXBkvneNusPabviKkhkYkT/echo/stream/ppv-event-02-serrano-v-tellez-ppv-02/1/playlist.m3u8
+https://lb8.strmd.top/secure/bhaTtqPQgsHYDQgpECmGUMzQkjlsupqf/echo/stream/ppv-event-02-serrano-v-tellez-ppv-02/1/playlist.m3u8
 #EXTINF:-1 group-title="Sports Networks (General)",Brisbane International: Show Court 1: Day 1
-https://lb4.strmd.top/secure/HmqJdeLMaZmYitmRCUBMgQAUHwbTBbRn/charlie/stream/show-court-1-day-1-1629472939/1/playlist.m3u8
-#EXTINF:-1 group-title="Sports Networks (General)",GCW One Night Only
-https://lb3.strmd.top/secure/rJdrVmwQwDUdpFRajuQDHBvACcjWgmZd/delta/stream/live-event_gcw-one-night-only-live-stream/1/playlist.m3u8
+https://lb7.strmd.top/secure/PICGBAFKnTDNDfjzOEKXGwttNaNMCVTg/charlie/stream/show-court-1-day-1-1629472939/1/playlist.m3u8
+#EXTINF:-1 group-title="Sports Networks (General)",GCW One Night Only 
+https://lb2.strmd.top/secure/uubGmkntQJoWkPHlCAmLpBClbiEwwIaB/echo/stream/ppv-event-04-gcw-one-night-only-ppv-004/1/playlist.m3u8
 #EXTINF:-1 group-title="Sports Networks (General)",United Cup: Day 3
-https://lb7.strmd.top/secure/LnaGAaTyiZxUUrswletEBwHsgKbQrSZN/charlie/stream/day-3-1629472928/1/playlist.m3u8
+https://lb7.strmd.top/secure/JApqAzpzaSFjradZZphriDRLUOLZacwV/charlie/stream/day-3-1629472928/1/playlist.m3u8
 #EXTINF:-1 group-title="Sports Networks (General)",Utah Jazz at Golden State Warriors
 https://hd.pixelhd.online:443/play/pAVJjXWDXadNqa4ml_eoyJF_z1dvZGy-Zocm5atKGtA/.m3u8
 #EXTINF:-1 group-title="Sports Networks (General)",Utah Jazz at Golden State Warriors
